@@ -1,5 +1,5 @@
 {
-	"name": "nuxt-content-starter",
+	"name": "@loanlink-nl/landingpage",
 	"private": true,
 	"type": "module",
 	"scripts": {
