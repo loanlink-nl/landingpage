@@ -1,6 +1,7 @@
 # LoanLink Landing Page Development Context
 
 ## Commands
+
 - Build: `pnpm build`
 - Dev server: `pnpm dev`
 - Preview: `pnpm preview`
@@ -9,12 +10,14 @@
 - Typecheck: `pnpm typecheck` (inferred from TypeScript dependency)
 
 ## Tech Stack
+
 - Nuxt 3 with TypeScript
 - @nuxt/content for content management
 - @nuxt/ui for UI components
 - Vue 3 Composition API with `<script setup>` syntax
 
 ## Code Style
+
 - Use TypeScript for type safety
 - Component props should have explicit types and defaults
 - Use Vue 3 Composition API with `<script setup>` syntax
