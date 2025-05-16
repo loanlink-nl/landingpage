@@ -3,6 +3,9 @@ dist
 .env
 .opencode
 .DS_Store
+<<<<<<< HEAD
 .nuxt
 .data
 .output
+=======
+>>>>>>> 2240019 (init nuxt)
