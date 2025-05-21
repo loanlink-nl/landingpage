@@ -4,5 +4,10 @@ export default defineAppConfig({
 			primary: "purple",
 			neutral: "slate",
 		},
+		button: {
+			slots: {
+				base: "rounded-full",
+			},
+		},
 	},
 });
