@@ -1,41 +1,40 @@
 <template>
-	<div class="my-8 bg-gray-100 p-6 rounded-lg border">
-		<div class="grid md:grid-cols-2 gap-8">
-			<!-- Audio Player Column -->
-			<div>
-				<h3 class="text-xl font-semibold mb-4">Gesprek</h3>
+	<div class="bg-gray-50 p-6 rounded-lg border">
+		<div class="grid md:grid-cols-2 items-stretch gap-8">
+			<div class="flex flex-col justify-between relative">
+				<h3 class="text-lg font-semibold">Opgenomen gesprek</h3>
 				<audio
 					ref="audioPlayer"
-					class="w-full mb-4"
+					class="w-full"
 					controls
 					@timeupdate="handleTimeUpdate"
 					@seeking="handleSeeking"
 				>
-					<source src="/demo.mp4" type="video/mp4" >
+					<source src="/demo.mp4" type="video/mp4" />
 					Je browser ondersteunt geen audio element.
 				</audio>
-				<div class="flex justify-between text-sm text-gray-500">
-					<span>{{ currentTime }}</span>
-					<span>{{ formatTime(currentTime) }}</span>
-					<span>{{ formatTime(duration) }}</span>
+
+				<div
+					class="absolute start-1/2 -bottom-7 md:start-auto md:bottom-auto md:-end-7 md:top-1/2 md:-rotate-90"
+				>
+					<UIcon name="i-lucide-chevron-down" class="text-lg text-gray-500" />
 				</div>
 			</div>
 
-			<!-- Transcription Column -->
 			<div>
-				<h3 class="text-xl font-semibold mb-4">Transcriptie</h3>
+				<h3 class="text-lg font-semibold">Transcriptie</h3>
+				<span class="text-sm block text-gray-500 mb-2">
+					klik op een segment om naar dat deel van de audio te springen
+				</span>
 				<div
 					ref="transcriptionContainer"
 					class="h-80 overflow-y-auto rounded border text-gray-700 relative"
 					style="scroll-padding-top: 16px"
 				>
-					<p class="text-xs text-gray-500 mb-2 italic">
-						Klik op een regel om naar dat deel van de audio te gaan
-					</p>
 					<div
 						v-for="(segment, index) in transcription"
 						:key="index"
-						class="odd:bg-white py-1 cursor-pointer"
+						class="bg-gray-100 odd:bg-white py-3 px-5 cursor-pointer"
 						:class="{
 							'text-primary-700 bg-primary-50 rounded':
 								currentSegmentIndex === index,
