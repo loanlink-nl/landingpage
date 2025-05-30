@@ -29,4 +29,7 @@ export default defineNuxtConfig({
 		url: "https://loanlink.nl",
 		name: "LoanLink AdviesIntake",
 	},
+	posthog: {
+		proxy: true,
+	},
 });
