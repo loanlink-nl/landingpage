@@ -7,6 +7,12 @@ settings:
 importers:
   .:
     dependencies:
+      "@iconify-json/logos":
+        specifier: ^1.2.4
+        version: 1.2.4
+      "@iconify-json/lucide":
+        specifier: ^1.2.45
+        version: 1.2.45
       "@nuxt/content":
         specifier: ^3.5.1
         version: 3.5.1(magicast@0.3.5)(typescript@5.8.3)
@@ -734,6 +740,18 @@ packages:
         integrity: sha512-bV0Tgo9K4hfPCek+aMAn81RppFKv2ySDQeMoSZuvTASywNTnVJCArCZE2FWqpvIatKu7VMRLWlR1EazvVhDyhQ==,
       }
     engines: { node: ">=18.18" }
+
+  "@iconify-json/logos@1.2.4":
+    resolution:
+      {
+        integrity: sha512-XC4If5D/hbaZvUkTV8iaZuGlQCyG6CNOlaAaJaGa13V5QMYwYjgtKk3vPP8wz3wtTVNVEVk3LRx1fOJz+YnSMw==,
+      }
+
+  "@iconify-json/lucide@1.2.45":
+    resolution:
+      {
+        integrity: sha512-izW3wk7Ll5HgNMc/m41eOKXb7nL1zFxXZdMyBOtqdwusHXPr8IWSC/ReSgWgxUF3xyNwiQsso5Ppkta2wsUrPg==,
+      }
 
   "@iconify/collections@1.0.548":
     resolution:
@@ -10180,6 +10198,14 @@ snapshots:
   "@humanwhocodes/retry@0.3.1": {}
 
   "@humanwhocodes/retry@0.4.3": {}
+
+  "@iconify-json/logos@1.2.4":
+    dependencies:
+      "@iconify/types": 2.0.0
+
+  "@iconify-json/lucide@1.2.45":
+    dependencies:
+      "@iconify/types": 2.0.0
 
   "@iconify/collections@1.0.548":
     dependencies:

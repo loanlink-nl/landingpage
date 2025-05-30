@@ -10,7 +10,7 @@
 					@timeupdate="handleTimeUpdate"
 					@seeking="handleSeeking"
 				>
-					<source src="/demo.mp4" type="video/mp4" />
+					<source src="/demo.mp4" type="video/mp4" >
 					Je browser ondersteunt geen audio element.
 				</audio>
 
@@ -28,7 +28,7 @@
 				</span>
 				<div
 					ref="transcriptionContainer"
-					class="h-80 overflow-y-auto rounded border text-gray-700 relative"
+					class="h-60 overflow-y-auto rounded border text-gray-700 relative"
 					style="scroll-padding-top: 16px"
 				>
 					<div
@@ -191,13 +191,6 @@ const segmentRefs: HTMLElement[] = [];
 const currentTime = ref(0);
 const duration = ref(0);
 const currentSegmentIndex = ref(-1);
-
-// Format time in MM:SS format
-const formatTime = (seconds: number): string => {
-	const mins = Math.floor(seconds / 60);
-	const secs = Math.floor(seconds % 60);
-	return `${mins}:${secs.toString().padStart(2, "0")}`;
-};
 
 // Find the current segment based on time
 const findCurrentSegment = (time: number): number => {
