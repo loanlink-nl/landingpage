@@ -27,6 +27,22 @@
 
 # site block, listens on the $PORT environment variable, automatically assigned by railway
 :{$PORT} {
+	handle_path /phproxy/static* {
+		rewrite * /static/{path}
+		reverse_proxy https://eu-assets.i.posthog.com:443 {
+			header_up Host eu-assets.i.posthog.com
+			header_down -Access-Control-Allow-Origin
+		}
+	}
+
+	handle_path /phproxy* {
+		rewrite * {path}
+		reverse_proxy https://eu.i.posthog.com:443 {
+			header_up Host eu.i.posthog.com
+			header_down -Access-Control-Allow-Origin
+		}
+	}
+
 	root * /srv
 	file_server
 
