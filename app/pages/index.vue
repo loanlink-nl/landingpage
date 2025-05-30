@@ -12,7 +12,7 @@
 			/>
 
 			<section id="transcription-demo" class="flex flex-col gap-4">
-				<span class="block text-center text-gray-500">
+				<span class="block text-center text-muted">
 					of kijk hier hoe het werkt:
 				</span>
 
@@ -35,6 +35,11 @@
 <script setup lang="ts">
 import { onMounted } from "vue";
 import TranscriptionPlayer from "../components/TranscriptionPlayer.vue";
+
+defineOgImageComponent("Main", {
+	logo: "/loanlink-white.svg",
+	title: "AdviesIntake",
+});
 
 const headline = "Minder typen, beter adviseren";
 const subheadline =

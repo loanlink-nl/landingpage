@@ -10,31 +10,31 @@
 					@timeupdate="handleTimeUpdate"
 					@seeking="handleSeeking"
 				>
-					<source src="/demo.mp4" type="video/mp4" >
+					<source src="/demo.mp4" type="video/mp4" />
 					Je browser ondersteunt geen audio element.
 				</audio>
 
 				<div
 					class="absolute start-1/2 -bottom-7 md:start-auto md:bottom-auto md:-end-7 md:top-1/2 md:-rotate-90"
 				>
-					<UIcon name="i-lucide-chevron-down" class="text-lg text-gray-500" />
+					<UIcon name="i-lucide-chevron-down" class="text-lg text-muted" />
 				</div>
 			</div>
 
 			<div>
 				<h3 class="text-lg font-semibold">Transcriptie</h3>
-				<span class="text-sm block text-gray-500 mb-2">
+				<span class="text-sm block text-muted mb-2">
 					klik op een segment om naar dat deel van de audio te springen
 				</span>
 				<div
 					ref="transcriptionContainer"
-					class="h-60 overflow-y-auto rounded border text-gray-700 relative"
+					class="h-60 overflow-y-auto rounded border text-muted relative"
 					style="scroll-padding-top: 16px"
 				>
 					<div
 						v-for="(segment, index) in transcription"
 						:key="index"
-						class="bg-gray-100 odd:bg-white py-3 px-5 cursor-pointer"
+						class="bg-muted odd:bg-white py-3 px-5 cursor-pointer"
 						:class="{
 							'text-primary-700 bg-primary-50 rounded':
 								currentSegmentIndex === index,

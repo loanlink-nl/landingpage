@@ -11,6 +11,8 @@ export default defineNuxtConfig({
 		"@nuxt/image",
 		"@nuxt/scripts",
 		"@nuxt/ui",
+		"nuxt-seo-utils",
+		"nuxt-og-image",
 	],
 	devtools: { enabled: true },
 	future: {
@@ -22,4 +24,8 @@ export default defineNuxtConfig({
 		plugins: [tailwindcss()],
 	},
 	css: ["~/assets/main.css"],
+	site: {
+		url: "https://loanlink.nl",
+		name: "LoanLink AdviesIntake",
+	},
 });
