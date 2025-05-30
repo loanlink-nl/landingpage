@@ -13,6 +13,7 @@ export default defineNuxtConfig({
 		"@nuxt/ui",
 		"nuxt-seo-utils",
 		"nuxt-og-image",
+		"nuxt-posthog",
 	],
 	devtools: { enabled: true },
 	future: {
