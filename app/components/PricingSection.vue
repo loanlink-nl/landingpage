@@ -1,7 +1,7 @@
 <template>
-	<section id="pricing" class="flex flex-col gap-4">
+	<section id="prijzen" class="flex flex-col gap-4">
 		<h2 class="text-3xl font-bold text-center">Onze Prijzen</h2>
-		<span class="block text-center text-gray-500"
+		<span class="block text-center text-muted"
 			>kies uit de volgende opties:</span
 		>
 		<div class="grid md:grid-cols-3 gap-8">
