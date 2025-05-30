@@ -24,7 +24,7 @@
 			<div>
 				<h3 class="text-lg font-semibold">Transcriptie</h3>
 				<span class="text-sm block text-muted mb-2">
-					klik op een segment om naar dat deel van de audio te springen
+					klik op een regel om naar dat deel van de audio te springen
 				</span>
 				<div
 					ref="transcriptionContainer"
@@ -39,6 +39,7 @@
 							'text-primary-700 bg-primary-50 rounded':
 								currentSegmentIndex === index,
 						}"
+						@click="jumpToSegment(segment.start)"
 					>
 						<p
 							:ref="
@@ -48,7 +49,6 @@
 							"
 							:data-start="segment.start"
 							:data-end="segment.end"
-							@click="jumpToSegment(segment.start)"
 						>
 							{{ segment.text }}
 						</p>
