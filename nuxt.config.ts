@@ -32,4 +32,7 @@ export default defineNuxtConfig({
 	posthog: {
 		proxy: true,
 	},
+	nitro: {
+		preset: "bun",
+	},
 });
