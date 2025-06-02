@@ -1,6 +1,10 @@
 import { defineNuxtConfig } from "nuxt/config";
 import tailwindcss from "@tailwindcss/vite";
 
+const baseUrl = import.meta.env.RAILWAY_PUBLIC_DOMAIN
+	? `https://${import.meta.env.RAILWAY_PUBLIC_DOMAIN}`
+	: "https://loanlink.nl";
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	modules: [
@@ -26,13 +30,20 @@ export default defineNuxtConfig({
 	},
 	css: ["~/assets/main.css"],
 	site: {
-		url: "https://loanlink.nl",
+		url: baseUrl,
 		name: "LoanLink AdviesIntake",
 	},
 	posthog: {
-		proxy: true,
+		clientOptions: {
+			api_host: `${baseUrl}/ingest`,
+			ui_host: "https://eu.posthog.com",
+		},
 	},
 	nitro: {
 		preset: "bun",
+	},
+	routeRules: {
+		"/ingest/static/**": { proxy: "https://eu-assets.i.posthog.com/static/**" },
+		"/ingest/**": { proxy: "https://eu.i.posthog.com/**" },
 	},
 });
