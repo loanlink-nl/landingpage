@@ -1,15 +1,9 @@
 <template>
 	<div>
-		<TheNavbar :cta-google :cta-text />
+		<TheNavbar />
 
 		<div class="mx-auto max-w-5xl px-4 py-8 flex flex-col gap-16">
-			<HeaderSection
-				:cta-google
-				:cta-text
-				:headline
-				:subheadline
-				class="pt-8"
-			/>
+			<HeaderSection :headline :subheadline class="pt-8" />
 
 			<section id="transcription-demo" class="flex flex-col gap-4">
 				<span class="block text-center text-muted">
@@ -25,7 +19,7 @@
 
 			<PricingSection />
 
-			<CTASection :cta-google :cta-text />
+			<CTASection />
 
 			<TheFooter />
 		</div>
@@ -44,9 +38,6 @@ defineOgImageComponent("Main", {
 const headline = "Minder typen, beter adviseren";
 const subheadline =
 	"Snel en nauwkeurig al je adviesgesprekken vastleggen met AdviesIntake van LoanLink.";
-
-const ctaGoogle = "Begin met Google";
-const ctaText = "Krijg 10 gesprekken gratis";
 
 // Handle smooth scrolling for anchor links
 onMounted(() => {
