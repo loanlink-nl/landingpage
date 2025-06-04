@@ -1,9 +1,9 @@
 <template>
 	<section id="prijzen" class="flex flex-col gap-4">
 		<h2 class="text-3xl font-bold text-center">Onze Prijzen</h2>
-		<span class="block text-center text-muted"
-			>kies uit de volgende opties:</span
-		>
+		<span class="block text-center text-muted">
+			je kan kiezen uit de volgende opties:
+		</span>
 		<div class="grid md:grid-cols-3 gap-8">
 			<AppPriceCard
 				title="Probeer gratis"
