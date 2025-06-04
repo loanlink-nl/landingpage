@@ -11,15 +11,19 @@
 				{{ feature }}
 			</li>
 		</ul>
-		<UButton block>Aan de Slag</UButton>
+		<UButton block to="https://app.loanlink.nl/aanmelden">{{ cta }}</UButton>
 	</div>
 </template>
 
 <script setup lang="ts">
-defineProps<{
-	title: string;
-	price: string;
-	per?: string;
-	features: string[];
-}>();
+withDefaults(
+	defineProps<{
+		title: string;
+		price: string;
+		features: string[];
+		per?: string;
+		cta?: string;
+	}>(),
+	{ cta: "Begin nu Gratis", per: undefined }
+);
 </script>
