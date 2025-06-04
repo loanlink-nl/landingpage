@@ -3,16 +3,7 @@
 		<div class="grid md:grid-cols-2 items-stretch gap-8">
 			<div class="flex flex-col justify-between relative">
 				<h3 class="text-lg font-semibold">Opgenomen gesprek</h3>
-				<audio
-					ref="audioPlayer"
-					class="w-full"
-					controls
-					@timeupdate="handleTimeUpdate"
-					@seeking="handleSeeking"
-				>
-					<source src="/demo.mp4" type="video/mp4" />
-					Je browser ondersteunt geen audio element.
-				</audio>
+				<AudioPlayer v-model="currentTime" />
 
 				<div
 					class="absolute start-1/2 -bottom-7 md:start-auto md:bottom-auto md:-end-7 md:top-1/2 md:-rotate-90"
@@ -39,7 +30,7 @@
 							'text-primary-700 bg-primary-50 rounded':
 								currentSegmentIndex === index,
 						}"
-						@click="jumpToSegment(segment.start)"
+						@click="currentTime = segment.start"
 					>
 						<p
 							:ref="
@@ -60,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from "vue";
+import { ref, watch } from "vue";
 
 const transcription = ref([
 	{
@@ -184,12 +175,9 @@ const transcription = ref([
 	{ start: 156, end: 160, text: "Ja, dank je." },
 ]);
 
-// Refs
-const audioPlayer = ref<HTMLAudioElement | null>(null);
 const transcriptionContainer = ref<HTMLElement | null>(null);
 const segmentRefs: HTMLElement[] = [];
 const currentTime = ref(0);
-const duration = ref(0);
 const currentSegmentIndex = ref(-1);
 
 // Find the current segment based on time
@@ -203,76 +191,30 @@ const findCurrentSegment = (time: number): number => {
 	return -1;
 };
 
-// Handle time update during playback
-const handleTimeUpdate = () => {
-	if (!audioPlayer.value) return;
-
-	currentTime.value = audioPlayer.value.currentTime;
-	updateCurrentSegment(currentTime.value);
-};
-
-// Handle seeking in the audio player
-const handleSeeking = () => {
-	if (!audioPlayer.value) return;
-	currentTime.value = audioPlayer.value.currentTime;
-	updateCurrentSegment(currentTime.value);
-};
-
-// Update the current segment based on time
-const updateCurrentSegment = (time: number) => {
+watch(currentTime, (time) => {
 	const newSegmentIndex = findCurrentSegment(time);
-
 	if (newSegmentIndex !== currentSegmentIndex.value) {
 		currentSegmentIndex.value = newSegmentIndex;
 	}
-};
-
-// Jump to a specific time in the audio
-const jumpToSegment = (time: number) => {
-	if (!audioPlayer.value) return;
-	audioPlayer.value.currentTime = time;
-	currentTime.value = time;
-
-	const newSegmentIndex = findCurrentSegment(time);
-	if (newSegmentIndex >= 0) {
-		currentSegmentIndex.value = newSegmentIndex;
-	}
-};
+});
 
 // Scroll to the active segment when it changes
-watch(currentSegmentIndex, (newIndex) => {
-	if (newIndex >= 0) {
-		console.log(newIndex);
-
-		// // Use a more direct approach with scrollIntoView
-		// setTimeout(() => {
-		// 	if (segmentRefs[newIndex]) {
-		// 		segmentRefs[newIndex].scrollIntoView({
-		// 			behavior: 'smooth',
-		// 			block: 'start',
-		// 			inline: 'nearest'
-		// 		});
-		// 	}
-		// }, 50);
-	}
-});
-
-// Initialize component
-onMounted(() => {
-	if (audioPlayer.value) {
-		// Set initial duration once metadata is loaded
-		audioPlayer.value.addEventListener("loadedmetadata", () => {
-			if (audioPlayer.value) {
-				duration.value = audioPlayer.value.duration;
-			}
-		});
-
-		// Handle if audio is already loaded
-		if (audioPlayer.value.readyState >= 1) {
-			duration.value = audioPlayer.value.duration;
-		}
-	}
-});
+// watch(currentSegmentIndex, (newIndex) => {
+// 	if (newIndex >= 0) {
+// 		console.log(newIndex);
+//
+// 		// // Use a more direct approach with scrollIntoView
+// 		// setTimeout(() => {
+// 		// 	if (segmentRefs[newIndex]) {
+// 		// 		segmentRefs[newIndex].scrollIntoView({
+// 		// 			behavior: 'smooth',
+// 		// 			block: 'start',
+// 		// 			inline: 'nearest'
+// 		// 		});
+// 		// 	}
+// 		// }, 50);
+// 	}
+// });
 </script>
 
 <style scoped>

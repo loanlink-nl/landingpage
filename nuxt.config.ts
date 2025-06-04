@@ -45,4 +45,7 @@ export default defineNuxtConfig({
 		"/ingest/static/**": { proxy: "https://eu-assets.i.posthog.com/static/**" },
 		"/ingest/**": { proxy: "https://eu.i.posthog.com/**" },
 	},
+	ui: {
+		colorMode: false,
+	},
 });
