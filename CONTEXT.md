@@ -12,7 +12,6 @@
 ## Tech Stack
 
 - Nuxt 3 with TypeScript
-- @nuxt/content for content management
 - @nuxt/ui for UI components
 - Vue 3 Composition API with `<script setup>` syntax
 

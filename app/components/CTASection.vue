@@ -5,25 +5,6 @@
 			Probeer AdviesIntake gratis uit en ontdek hoe makkelijk je jouw gesprekken
 			kan vastleggen.
 		</p>
-		<div class="flex flex-row justify-center gap-2">
-			<UButton
-				size="lg"
-				color="neutral"
-				variant="outline"
-				icon="logos:google-icon"
-			>
-				{{ ctaGoogle }}
-			</UButton>
-			<UButton size="lg" color="primary" trailing-icon="i-lucide-arrow-right">
-				{{ ctaText }}
-			</UButton>
-		</div>
+		<AppCTAS size="lg" />
 	</section>
 </template>
-
-<script setup lang="ts">
-defineProps<{
-	ctaGoogle: string;
-	ctaText: string;
-}>();
-</script>

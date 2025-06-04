@@ -7,19 +7,7 @@
 			{{ subheadline }}
 		</p>
 		<div class="flex flex-col gap-4">
-			<div class="flex flex-row gap-2">
-				<UButton
-					size="lg"
-					color="neutral"
-					variant="outline"
-					icon="logos:google-icon"
-				>
-					{{ ctaGoogle }}
-				</UButton>
-				<UButton size="lg" color="primary" trailing-icon="i-lucide-arrow-right">
-					{{ ctaText }}
-				</UButton>
-			</div>
+			<AppCTAS size="lg" />
 		</div>
 	</section>
 </template>
@@ -28,7 +16,5 @@
 defineProps<{
 	headline: string;
 	subheadline: string;
-	ctaGoogle: string;
-	ctaText: string;
 }>();
 </script>
