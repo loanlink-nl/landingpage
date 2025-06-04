@@ -37,7 +37,7 @@ defineOgImageComponent("Main", {
 
 const headline = "Minder typen, beter adviseren";
 const subheadline =
-	"Snel en nauwkeurig al je adviesgesprekken vastleggen met AdviesIntake van LoanLink.";
+	"Snel en nauwkeurig al je adviesgesprekken vastleggen met AdviesIntake van LoanLink";
 
 // Handle smooth scrolling for anchor links
 onMounted(() => {
