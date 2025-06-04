@@ -17,7 +17,20 @@
 					</a>
 				</div>
 			</div>
-			<AppCTAS size="sm" />
+			<AppCTAS v-if="!isLoggedIn" size="sm" />
+			<UButton
+				v-else
+				size="sm"
+				to="https://app.loanlink.nl"
+				color="primary"
+				trailing-icon="i-lucide-arrow-right"
+			>
+				Ga naar de app
+			</UButton>
 		</div>
 	</nav>
 </template>
+
+<script setup lang="ts">
+const isLoggedIn = useCookie("isLoggedIn");
+</script>
