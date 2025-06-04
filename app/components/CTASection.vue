@@ -5,6 +5,6 @@
 			Probeer AdviesIntake gratis uit en ontdek hoe makkelijk je jouw gesprekken
 			kan vastleggen.
 		</p>
-		<AppCTAS size="lg" />
+		<AppCTAS size="lg" class="justify-self-center" />
 	</section>
 </template>
