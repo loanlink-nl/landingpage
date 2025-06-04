@@ -10,7 +10,8 @@
 		"start": "bun .output/server/index.mjs",
 		"lint": "eslint .",
 		"typecheck": "vue-tsc --noEmit",
-		"format": "prettier --write ."
+		"format": "prettier --write .",
+		"fix": "pnpm run format && pnpm run lint"
 	},
 	"dependencies": {
 		"@iconify-json/logos": "^1.2.4",
