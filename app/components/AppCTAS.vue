@@ -1,8 +1,8 @@
 <template>
 	<div class="flex flex-row gap-2">
-		<UButton :size color="neutral" variant="outline" icon="logos:google-icon">
-			{{ ctaGoogle }}
-		</UButton>
+		<!-- <UButton :size color="neutral" variant="outline" icon="logos:google-icon"> -->
+		<!-- 	{{ ctaGoogle }} -->
+		<!-- </UButton> -->
 		<UButton
 			:size
 			to="https://app.loanlink.nl/aanmelden"
@@ -19,6 +19,6 @@ defineProps<{
 	size?: "xs" | "sm" | "md" | "lg" | "xl";
 }>();
 
-const ctaGoogle = "Begin met Google";
+// const ctaGoogle = "Begin met Google";
 const ctaText = "Krijg 10 gesprekken gratis";
 </script>
