@@ -32,12 +32,12 @@ import TranscriptionPlayer from "../components/TranscriptionPlayer.vue";
 
 defineOgImageComponent("Main", {
 	logo: "/loanlink-white.svg",
-	title: "AdviesIntake",
+	title: "Adviesintake",
 });
 
 const headline = "Minder typen, beter adviseren";
 const subheadline =
-	"Snel en nauwkeurig al je adviesgesprekken vastleggen met AdviesIntake van LoanLink";
+	"Snel en nauwkeurig al je adviesgesprekken vastleggen met adviesintake van LoanLink";
 
 // Handle smooth scrolling for anchor links
 onMounted(() => {
