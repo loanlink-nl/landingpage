@@ -34,7 +34,7 @@ export default defineNuxtConfig({
     },
     posthog: {
         clientOptions: {
-            api_host: `${baseUrl}/ingest`,
+            api_host: `${baseUrl}/data`,
             ui_host: "https://eu.posthog.com",
         },
     },
@@ -42,8 +42,8 @@ export default defineNuxtConfig({
         preset: "bun",
     },
     routeRules: {
-        "/ingest/static/**": { proxy: "https://eu-assets.i.posthog.com/static/**" },
-        "/ingest/**": { proxy: "https://eu.i.posthog.com/**" },
+        "/data/static/**": { proxy: "https://eu-assets.i.posthog.com/static/**" },
+        "/data/**": { proxy: "https://eu.i.posthog.com/**" },
     },
     ui: {
         colorMode: false,
