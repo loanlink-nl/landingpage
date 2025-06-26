@@ -57,7 +57,7 @@
 				<!-- eslint-disable vue/no-v-html -->
 				<div
 					class="markdown overflow-y-auto overflow-x-hidden bg-white rounded border text-muted relative py-3 px-5"
-					v-html="htmlSanitized"
+					v-html="markdown"
 				></div>
 				<!-- elsint-enable -->
 			</div>
@@ -68,8 +68,6 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import { marked } from "marked";
-import DOMPurify from "dompurify";
-import { asyncComputed } from "@vueuse/core";
 
 const transcription = ref([
 	{
@@ -263,13 +261,7 @@ const summary = `# Klantsituatie en Woonwens
   - Stuurt de klant een e-mail met een overzicht van de besproken bedragen.
   - Start de hypotheekaanvraag (trajectduur ca. 4-5 weken) zodra de klant een geschikte woning heeft gevonden en een seintje geeft.`;
 
-const htmlSanitized = asyncComputed(async () => {
-	const markdown = await marked.parse(summary);
-
-	const res = DOMPurify.sanitize(markdown);
-
-	return res;
-}, "");
+const markdown = marked.parse(summary);
 
 const transcriptionContainer = ref<HTMLElement | null>(null);
 const segmentRefs: HTMLElement[] = [];
