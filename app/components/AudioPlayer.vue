@@ -7,7 +7,7 @@
 			@timeupdate="updateTime"
 			@seeking="updateTime"
 		>
-			<source src="/demo.mp3" />
+			<source src="/gesprek.mp3" />
 			Je browser ondersteunt geen audio element.
 		</audio>
 	</ClientOnly>

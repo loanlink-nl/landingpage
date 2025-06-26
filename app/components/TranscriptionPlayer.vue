@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-gray-50 p-6 rounded-lg border">
-		<div class="grid md:grid-cols-2 items-stretch gap-8">
+		<div class="grid md:grid-cols-3 items-stretch gap-8">
 			<div class="flex flex-col justify-between relative">
 				<h3 class="text-lg font-semibold">Opgenomen gesprek</h3>
 				<AudioPlayer v-model="currentTime" />
@@ -12,14 +12,14 @@
 				</div>
 			</div>
 
-			<div>
+			<div class="relative h-80 flex flex-col">
 				<h3 class="text-lg font-semibold">Transcriptie</h3>
 				<span class="text-sm block text-muted mb-2">
 					klik op een regel om naar dat deel van de audio te springen
 				</span>
 				<div
 					ref="transcriptionContainer"
-					class="h-60 overflow-y-auto rounded border text-muted relative"
+					class="overflow-y-auto rounded border text-muted relative"
 					style="scroll-padding-top: 16px"
 				>
 					<div
@@ -45,13 +45,30 @@
 						</p>
 					</div>
 				</div>
+
+				<div
+					class="absolute start-1/2 -bottom-7 md:start-auto md:bottom-auto md:-end-7 md:top-1/2 md:-rotate-90"
+				>
+					<UIcon name="i-lucide-chevron-down" class="text-lg text-muted" />
+				</div>
 			</div>
+
+			<div class="relative h-80 flex flex-col">
+				<h3 class="text-lg font-semibold mb-2">Samenvatting</h3>
+                <!-- eslint-disable-next-line vue/no-v-html -->
+                <div 
+					class="markdown overflow-y-auto bg-white rounded border text-muted relative py-3 px-5"
+                    v-html="htmlSanitized"></div>
+            </div>
 		</div>
 	</div>
 </template>
 
 <script setup lang="ts">
 import { ref, watch } from "vue";
+import { marked } from "marked";
+import DOMPurify from "dompurify";
+import { asyncComputed } from "@vueuse/core";
 
 const transcription = ref([
 	{
@@ -174,6 +191,56 @@ const transcription = ref([
 	},
 	{ start: 156, end: 160, text: "Ja, dank je." },
 ]);
+
+const summary = `# Klantsituatie en Woonwens
+- **Klant:** Marc (S2), een alleenstaande koper.
+- **Woonwens:** Een woning aan de Verlengde Hereweg in Groningen met een vraagprijs van € 385.000.
+- **Zorg:** De klant twijfelt of de gewenste woning financieel haalbaar is.
+
+# Financiële Analyse en Maximale Hypotheek
+- **Inkomen:** Bruto jaarsalaris van € 52.000 uit een vast contract als projectmanager, zonder bijverdiensten.
+- **Eigen middelen:** € 25.000 spaargeld.
+- **Maximale hypotheek:** Op basis van het inkomen berekend op circa € 235.000.
+- **Totaal beschikbaar vermogen:** € 260.000 (maximale hypotheek + spaargeld).
+- **Conclusie:** De gewenste woning van € 385.000 is financieel niet haalbaar.
+
+# Bijkomende Kosten en Realistisch Budget
+- **Kosten Koper (k.k.):** De adviseur (S1) licht toe dat er bijkomende kosten zijn (overdrachtsbelasting, notaris, taxatie) van ongeveer 2% van de koopsom.
+  - Deze kosten kunnen niet worden meegefinancierd en moeten uit eigen middelen worden betaald.
+- **Realistisch aankoopbudget:** De adviseur stelt een maximaal aankoopbudget van € 255.000 voor.
+  - Dit budget biedt voldoende ruimte om de Kosten Koper te dekken en een buffer over te houden voor eventuele verbouwingen.
+- **Woningmarkt Groningen:** De adviseur merkt op dat er in dit segment nog woningen te vinden zijn in wijken als Vinkhuizen en Beijum.
+
+# Renteopties en Indicatie Maandlasten
+- **Renteopties besproken:**
+  - 10 jaar vast: ca. 3,5%
+  - 20 jaar vast: ca. 3,75%
+- **Beslissing klant:** De klant kiest voor de zekerheid van een rentevaste periode van 20 jaar.
+- **Rekenvoorbeeld maandlasten (op basis van een hypotheek van € 230.000 en 20 jaar vast tegen 3,65%):**
+  - **Bruto:** ca. € 1.065 per maand.
+  - **Netto:** ca. € 840 per maand (na hypotheekrenteaftrek).
+- **Extra kosten:** De adviseur benadrukt dat de klant als huiseigenaar rekening moet houden met onderhoudskosten van circa € 100 - € 150 per maand.
+
+# Vervolgstappen
+- **Marc (klant):**
+  - Gaat op zoek naar een woning met een maximaal aankoopbudget van € 255.000.
+  - Verzamelt de benodigde documenten voor de hypotheekaanvraag:
+    - Laatste drie loonstroken
+    - Werkgeversverklaring (advies is deze nu al aan te vragen)
+    - Kopie paspoort
+  - Neemt contact op met de adviseur zodra hij een bod wil uitbrengen.
+  - Gaat geen nieuwe financiële verplichtingen aan (zoals een leaseauto of lening) die de leencapaciteit kunnen beïnvloeden.
+- **Hypotheekadviseur (S1):**
+  - Stuurt de klant een e-mail met een overzicht van de besproken bedragen.
+  - Start de hypotheekaanvraag (trajectduur ca. 4-5 weken) zodra de klant een geschikte woning heeft gevonden en een seintje geeft.`;
+
+const htmlSanitized = asyncComputed(async () => {
+	const markdown = await marked.parse(summary);
+
+	const res = DOMPurify.sanitize(markdown);
+
+	return res;
+}, "");
 
 const transcriptionContainer = ref<HTMLElement | null>(null);
 const segmentRefs: HTMLElement[] = [];
