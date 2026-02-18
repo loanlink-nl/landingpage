@@ -18,7 +18,7 @@
 		"@iconify-json/lucide": "^1.2.45",
 		"@nuxt/eslint": "1.4.0",
 		"@nuxt/fonts": "0.11.4",
-		"@nuxt/icon": "1.13.0",
+		"@nuxt/icon": "1.15.0",
 		"@nuxt/image": "1.10.0",
 		"@nuxt/scripts": "0.11.6",
 		"@nuxt/ui": "3.3.7",
