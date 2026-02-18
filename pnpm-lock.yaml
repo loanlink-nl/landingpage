@@ -24,8 +24,8 @@ importers:
         specifier: 1.13.0
         version: 1.13.0(magicast@0.5.1)(vite@7.3.0(@types/node@22.15.18)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue@3.5.25(typescript@5.9.3))
       '@nuxt/image':
-        specifier: 1.10.0
-        version: 1.10.0(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)(magicast@0.5.1)
+        specifier: 1.11.0
+        version: 1.11.0(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)(magicast@0.5.1)
       '@nuxt/scripts':
         specifier: 0.11.6
         version: 0.11.6(@netlify/blobs@9.1.1)(@unhead/vue@2.1.1(vue@3.5.25(typescript@5.9.3)))(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)(magicast@0.5.1)(nuxt@3.20.2(@netlify/blobs@9.1.1)(@parcel/watcher@2.5.1)(@types/node@22.15.18)(@vue/compiler-sfc@3.5.26)(better-sqlite3@11.10.0)(cac@6.7.14)(db0@0.3.4(better-sqlite3@11.10.0))(eslint@9.39.2(jiti@2.6.1))(ioredis@5.8.2)(lightningcss@1.30.2)(magicast@0.5.1)(optionator@0.9.4)(rollup@4.54.0)(terser@5.44.1)(typescript@5.9.3)(vite@7.3.0(@types/node@22.15.18)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))(vue-tsc@2.2.12(typescript@5.9.3))(yaml@2.8.2))(typescript@5.9.3)(vue@3.5.25(typescript@5.9.3))
@@ -1037,8 +1037,8 @@ packages:
   '@nuxt/icon@1.15.0':
     resolution: {integrity: sha512-kA0rxqr1B601zNJNcOXera8CyYcxUCEcT7dXEC7rwAz71PRCN5emf7G656eKEQgtqrD4JSj6NQqWDgrmFcf/GQ==}
 
-  '@nuxt/image@1.10.0':
-    resolution: {integrity: sha512-/B58GeEmme7bkmQUrXzEw8P9sJb9BkMaYZqLDtq8ZdDLEddE3P4nVya8RQPB+p4b7EdqWajpPqdy1A2ZPLev/A==}
+  '@nuxt/image@1.11.0':
+    resolution: {integrity: sha512-4kzhvb2tJfxMsa/JZeYn1sMiGbx2J/S6BQrQSdXNsHgSvywGVkFhTiQGjoP6O49EsXyAouJrer47hMeBcTcfXQ==}
     engines: {node: '>=18.20.6'}
 
   '@nuxt/kit@3.17.3':
@@ -2810,9 +2810,6 @@ packages:
     resolution: {integrity: sha512-3O5QdqgFRUbXvK1x5INf1YkBz1UKSWqrd63vWsum8MNHDBYD5urm3QtxZbKU259OrEXNM26lP/MPY3d1IGkBgA==}
     engines: {node: '>=16'}
 
-  css-select@5.1.0:
-    resolution: {integrity: sha512-nwoRF1rvRRnnCqqY7updORDsuqKzqYJ28+oSMaJMMgOauh3fvwHqMS7EZpIPqK8GL+g9mKxF1vP/ZjSeNjEVHg==}
-
   css-select@5.2.2:
     resolution: {integrity: sha512-TizTzUddG/xYLA3NXodFM0fSbNizXjOKhqiQQwvhlspadZokn1KDy0NZFS0wuEubIYAV5/c1/lAr0TaaFXEXzw==}
 
@@ -2830,10 +2827,6 @@ packages:
   css-tree@3.1.0:
     resolution: {integrity: sha512-0eW44TGN5SQXU1mWSkKwFstI/22X2bG1nYzZTYMAWjylYURhse752YgbE4Cx46AC+bAvI+/dYTPRk1LqSUnu6w==}
     engines: {node: ^10 || ^12.20.0 || ^14.13.0 || >=15.0.0}
-
-  css-what@6.1.0:
-    resolution: {integrity: sha512-HTUrgRJ7r4dsZKU6GjmpfRK1O76h97Z8MfS1G0FozR+oF2kG6Vfe8JE6zwrkbxigziPHinCJ+gCPjA9EaBDtRw==}
-    engines: {node: '>= 6'}
 
   css-what@6.2.2:
     resolution: {integrity: sha512-u/O3vwbptzhMs3L1fQE82ZSLHQQfto5gyZzwteVIEyeaY5Fc7R4dapF/BvRoSYFeqfBk4m0V1Vafq5Pjv25wvA==}
@@ -3000,10 +2993,6 @@ packages:
     resolution: {integrity: sha512-pGjwhsmsp4kL2RTz08wcOlGN83otlqHeD/Z5T8GXZB+/YcpQ/dgo+lbU8ZsGxV0HIvqqxo9l7mqYwyYMD9bKDg==}
     engines: {node: '>=0.10'}
     hasBin: true
-
-  detect-libc@2.0.4:
-    resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
-    engines: {node: '>=8'}
 
   detect-libc@2.1.2:
     resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
@@ -3645,9 +3634,6 @@ packages:
     resolution: {integrity: sha512-Hs59xBNfUIunMFgWAbGX5cq6893IbWg4KnrjbYwX3tx0ztorVgTDA6B2sxf8ejHJ4wz8BqGUMYlnzNBer5NvGg==}
     engines: {node: '>= 4'}
 
-  image-meta@0.2.1:
-    resolution: {integrity: sha512-K6acvFaelNxx8wc2VjbIzXKDVB0Khs0QT35U6NkGfTdCmjLNcO2945m7RFNR9/RPVFm48hq7QPzK8uGH18HCGw==}
-
   image-meta@0.2.2:
     resolution: {integrity: sha512-3MOLanc3sb3LNGWQl1RlQlNWURE5g32aUphrDyFeCsxBTk08iE3VNe4CwsUZ0Qs1X+EfX0+r29Sxdpza4B+yRA==}
 
@@ -3685,8 +3671,8 @@ packages:
     resolution: {integrity: sha512-C6uC+kleiIMmjViJINWk80sOQw5lEzse1ZmvD+S/s8p8CWapftSaC+kocGTx6xrbrJ4WmYQGC08ffHLr6ToR6Q==}
     engines: {node: '>=12.22.0'}
 
-  ipx@2.1.0:
-    resolution: {integrity: sha512-AVnPGXJ8L41vjd11Z4akIF2yd14636Klxul3tBySxHA6PKfCOQPxBDkCFK5zcWh0z/keR6toh1eg8qzdBVUgdA==}
+  ipx@2.1.1:
+    resolution: {integrity: sha512-XuM9FEGOT+/45mfAWZ5ykwkZ/oE7vWpd1iWjRffMWlwAYIRzb/xD6wZhQ4BzmPMX6Ov5dqK0wUyD0OEN9oWT6g==}
     hasBin: true
 
   iron-webcrypto@1.2.1:
@@ -4247,9 +4233,6 @@ packages:
 
   node-mock-http@1.0.0:
     resolution: {integrity: sha512-0uGYQ1WQL1M5kKvGRXWQ3uZCHtLTO8hln3oBjIusM75WoesZ909uQJs/Hb946i2SS+Gsrhkaa6iAO17jRIv6DQ==}
-
-  node-mock-http@1.0.3:
-    resolution: {integrity: sha512-jN8dK25fsfnMrVsEhluUTPkBFY+6ybu7jSB1n+ri/vOGjJxU8J9CZhpSGkHXSkFjtUhbmoncG/YG9ta5Ludqog==}
 
   node-mock-http@1.0.4:
     resolution: {integrity: sha512-8DY+kFsDkNXy1sJglUfuODx1/opAGJGyrTuFqEoN90oRc2Vk0ZbD4K2qmKXBBEhZQzdKHIVfEJpDU8Ak2NJEvQ==}
@@ -6902,20 +6885,20 @@ snapshots:
       - vite
       - vue
 
-  '@nuxt/image@1.10.0(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)(magicast@0.5.1)':
+  '@nuxt/image@1.11.0(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)(magicast@0.5.1)':
     dependencies:
-      '@nuxt/kit': 3.17.3(magicast@0.5.1)
+      '@nuxt/kit': 3.20.2(magicast@0.5.1)
       consola: 3.4.2
       defu: 6.1.4
-      h3: 1.15.3
-      image-meta: 0.2.1
-      knitwork: 1.2.0
+      h3: 1.15.4
+      image-meta: 0.2.2
+      knitwork: 1.3.0
       ohash: 2.0.11
       pathe: 2.0.3
-      std-env: 3.9.0
+      std-env: 3.10.0
       ufo: 1.6.1
     optionalDependencies:
-      ipx: 2.1.0(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)
+      ipx: 2.1.1(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)
     transitivePeerDependencies:
       - '@azure/app-configuration'
       - '@azure/cosmos'
@@ -6968,7 +6951,7 @@ snapshots:
 
   '@nuxt/kit@3.20.2(magicast@0.5.1)':
     dependencies:
-      c12: 3.3.2(magicast@0.5.1)
+      c12: 3.3.3(magicast@0.5.1)
       consola: 3.4.2
       defu: 6.1.4
       destr: 2.0.5
@@ -6987,7 +6970,7 @@ snapshots:
       semver: 7.7.3
       tinyglobby: 0.2.15
       ufo: 1.6.1
-      unctx: 2.4.1
+      unctx: 2.5.0
       untyped: 2.0.0
     transitivePeerDependencies:
       - magicast
@@ -7085,7 +7068,7 @@ snapshots:
       consola: 3.4.2
       defu: 6.1.4
       pathe: 2.0.3
-      std-env: 3.9.0
+      std-env: 3.10.0
 
   '@nuxt/schema@3.20.2':
     dependencies:
@@ -8869,15 +8852,6 @@ snapshots:
 
   css-gradient-parser@0.0.16: {}
 
-  css-select@5.1.0:
-    dependencies:
-      boolbase: 1.0.0
-      css-what: 6.1.0
-      domhandler: 5.0.3
-      domutils: 3.2.2
-      nth-check: 2.1.1
-    optional: true
-
   css-select@5.2.2:
     dependencies:
       boolbase: 1.0.0
@@ -8907,9 +8881,6 @@ snapshots:
     dependencies:
       mdn-data: 2.12.2
       source-map-js: 1.2.1
-
-  css-what@6.1.0:
-    optional: true
 
   css-what@6.2.2: {}
 
@@ -9039,9 +9010,6 @@ snapshots:
   destr@2.0.5: {}
 
   detect-libc@1.0.3: {}
-
-  detect-libc@2.0.4:
-    optional: true
 
   detect-libc@2.1.2: {}
 
@@ -9766,7 +9734,7 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.5
       iron-webcrypto: 1.2.1
-      node-mock-http: 1.0.3
+      node-mock-http: 1.0.4
       radix3: 1.1.2
       ufo: 1.6.1
       uncrypto: 0.1.3
@@ -9824,8 +9792,6 @@ snapshots:
 
   ignore@7.0.5: {}
 
-  image-meta@0.2.1: {}
-
   image-meta@0.2.2: {}
 
   image-size@2.0.2: {}
@@ -9868,7 +9834,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  ipx@2.1.0(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2):
+  ipx@2.1.1(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2):
     dependencies:
       '@fastify/accept-negotiator': 1.1.0
       citty: 0.1.6
@@ -9876,10 +9842,10 @@ snapshots:
       defu: 6.1.4
       destr: 2.0.5
       etag: 1.8.1
-      h3: 1.15.3
-      image-meta: 0.2.1
+      h3: 1.15.4
+      image-meta: 0.2.2
       listhen: 1.9.0
-      ofetch: 1.4.1
+      ofetch: 1.5.1
       pathe: 1.1.2
       sharp: 0.32.6
       svgo: 3.3.2
@@ -10129,14 +10095,14 @@ snapshots:
       consola: 3.4.2
       crossws: 0.3.5
       defu: 6.1.4
-      get-port-please: 3.1.2
-      h3: 1.15.3
+      get-port-please: 3.2.0
+      h3: 1.15.4
       http-shutdown: 1.2.2
       jiti: 2.6.1
       mlly: 1.8.0
       node-forge: 1.3.1
       pathe: 1.1.2
-      std-env: 3.9.0
+      std-env: 3.10.0
       ufo: 1.6.1
       untun: 0.1.3
       uqr: 0.1.2
@@ -10352,7 +10318,7 @@ snapshots:
       '@rollup/plugin-terser': 0.4.4(rollup@4.54.0)
       '@vercel/nft': 0.30.4(rollup@4.54.0)
       archiver: 7.0.1
-      c12: 3.3.2(magicast@0.5.1)
+      c12: 3.3.3(magicast@0.5.1)
       chokidar: 4.0.3
       citty: 0.1.6
       compatx: 0.2.0
@@ -10403,7 +10369,7 @@ snapshots:
       ufo: 1.6.1
       ultrahtml: 1.6.0
       uncrypto: 0.1.3
-      unctx: 2.4.1
+      unctx: 2.5.0
       unenv: 2.0.0-rc.24
       unimport: 5.5.0
       unplugin-utils: 0.3.1
@@ -10473,8 +10439,6 @@ snapshots:
   node-gyp-build@4.8.4: {}
 
   node-mock-http@1.0.0: {}
-
-  node-mock-http@1.0.3: {}
 
   node-mock-http@1.0.4: {}
 
@@ -10577,9 +10541,9 @@ snapshots:
   nuxt-site-config-kit@3.2.0(magicast@0.5.1)(vue@3.5.25(typescript@5.9.3)):
     dependencies:
       '@nuxt/kit': 3.20.2(magicast@0.5.1)
-      pkg-types: 2.1.0
+      pkg-types: 2.3.0
       site-config-stack: 3.2.0(vue@3.5.25(typescript@5.9.3))
-      std-env: 3.9.0
+      std-env: 3.10.0
       ufo: 1.6.1
     transitivePeerDependencies:
       - magicast
@@ -10598,7 +10562,7 @@ snapshots:
 
   nuxt-site-config@3.2.0(magicast@0.5.1)(vue@3.5.25(typescript@5.9.3)):
     dependencies:
-      '@nuxt/kit': 3.17.3(magicast@0.5.1)
+      '@nuxt/kit': 3.20.2(magicast@0.5.1)
       nuxt-site-config-kit: 3.2.0(magicast@0.5.1)(vue@3.5.25(typescript@5.9.3))
       pathe: 2.0.3
       pkg-types: 2.1.0
@@ -11186,7 +11150,7 @@ snapshots:
 
   prebuild-install@7.1.3:
     dependencies:
-      detect-libc: 2.0.4
+      detect-libc: 2.1.2
       expand-template: 2.0.3
       github-from-package: 0.0.0
       minimist: 1.2.8
@@ -11483,7 +11447,7 @@ snapshots:
   sharp@0.32.6:
     dependencies:
       color: 4.2.3
-      detect-libc: 2.0.4
+      detect-libc: 2.1.2
       node-addon-api: 6.1.0
       prebuild-install: 7.1.3
       semver: 7.7.3
@@ -11703,9 +11667,9 @@ snapshots:
     dependencies:
       '@trysound/sax': 0.2.0
       commander: 7.2.0
-      css-select: 5.1.0
+      css-select: 5.2.2
       css-tree: 2.3.1
-      css-what: 6.1.0
+      css-what: 6.2.2
       csso: 5.0.5
       picocolors: 1.1.1
     optional: true
@@ -12079,7 +12043,7 @@ snapshots:
 
   unwasm@0.3.9:
     dependencies:
-      knitwork: 1.2.0
+      knitwork: 1.3.0
       magic-string: 0.30.17
       mlly: 1.7.4
       pathe: 1.1.2
