@@ -106,4 +106,9 @@ section[id] {
 /* Weigeren en accepteren even groot (AP: weigeren even makkelijk als accepteren) */
 #cc-main .cm--inline .cm__btn-group {
 	grid-auto-columns: 1fr;
+	column-gap: 0.375rem;
+}
+#cc-main .cm--inline.cm--flip .cm__btn-group .cm__btn + .cm__btn,
+#cc-main .cm--inline .cm__btn-group .cm__btn + .cm__btn {
+	margin: 0;
 }
