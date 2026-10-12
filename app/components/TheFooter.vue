@@ -32,6 +32,13 @@
 				<NuxtLink to="/privacy#cookies" class="hover:text-primary-500">
 					Cookies
 				</NuxtLink>
+				<button
+					type="button"
+					class="text-left hover:text-primary-500 cursor-pointer"
+					@click="openCookieSettings"
+				>
+					Cookie-instellingen
+				</button>
 			</nav>
 		</div>
 
@@ -42,3 +49,11 @@
 		</p>
 	</footer>
 </template>
+
+<script setup lang="ts">
+async function openCookieSettings() {
+	const CookieConsent = await import("vanilla-cookieconsent");
+	// Toont de banner opnieuw, zodat de bezoeker zijn keuze kan wijzigen.
+	CookieConsent.show(true);
+}
+</script>

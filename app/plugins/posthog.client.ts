@@ -13,12 +13,30 @@ import posthog from "posthog-js";
  * Komt er ooit tracking die wél iets op het apparaat opslaat (bijv. de Meta-pixel),
  * dan pas na toestemming via een cookiebanner. Zie /privacy.
  */
+const URL_PROPS = [
+	"$current_url",
+	"$referrer",
+	"$initial_referrer",
+	"$initial_current_url",
+	"$pathname",
+];
+
+function stripQuery(value: string): string {
+	try {
+		const u = new URL(value, window.location.origin);
+		return value.startsWith("/") ? u.pathname : `${u.origin}${u.pathname}`;
+	} catch {
+		return value.split(/[?#]/)[0] ?? "";
+	}
+}
+
 export default defineNuxtPlugin(() => {
 	const config = useRuntimeConfig().public;
 	if (!config.posthogKey) return;
 
 	posthog.init(config.posthogKey as string, {
-		api_host: config.posthogApiHost as string,
+		// Altijd via het eigen domein van de bezoeker (proxy server/routes/data).
+		api_host: new URL("/data", window.location.origin).href,
 		ui_host: "https://eu.posthog.com",
 		persistence: "memory",
 		disable_session_recording: true,
@@ -29,6 +47,14 @@ export default defineNuxtPlugin(() => {
 		disable_surveys: true,
 		disable_external_dependency_loading: true,
 		autocapture: true,
+		// Geen querystring of #-deel naar PostHog: daar kunnen persoonsgegevens in staan.
+		sanitize_properties: (properties) => {
+			for (const key of URL_PROPS) {
+				const value = properties[key];
+				if (typeof value === "string") properties[key] = stripQuery(value);
+			}
+			return properties;
+		},
 	});
 
 	const router = useRouter();

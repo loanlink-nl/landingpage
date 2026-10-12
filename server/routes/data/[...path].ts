@@ -1,18 +1,19 @@
 /**
  * Proxy naar PostHog EU voor de cookieloze websitestatistiek.
- * Haalt vóór het doorsturen weg:
- * - cookies (bijv. die van app.loanlink.nl op .loanlink.nl)
- * - het IP-adres van de bezoeker (X-Forwarded-For e.d.), zodat PostHog alleen
- *   het serveradres ziet en geen IP of locatie van de bezoeker kan opslaan.
+ * Stuurt alleen de headers door die PostHog nodig heeft (allowlist). Daardoor gaan
+ * nooit mee: cookies (bijv. die van app.loanlink.nl op .loanlink.nl), Authorization,
+ * Referer (volledige pagina-URL) en het IP-adres van de bezoeker (X-Forwarded-For e.d.).
  */
-const STRIP = [
-	"cookie",
-	"x-forwarded-for",
-	"x-real-ip",
-	"forwarded",
-	"cf-connecting-ip",
-	"true-client-ip",
+const ALLOW = [
+	"accept",
+	"accept-encoding",
+	"content-encoding",
+	"content-type",
+	"user-agent",
 ];
+
+// PostHog-batches zijn klein; grotere verzoeken weigeren we (geheugen beschermen).
+const MAX_BODY_BYTES = 1024 * 1024;
 
 // proxyRequest() voegt altijd alle originele headers weer toe; daarom sendProxy() met
 // een eigen, geschoonde headerset.
@@ -31,13 +32,18 @@ export default defineEventHandler(async (event) => {
 
 	const headers: Record<string, string> = {};
 	for (const [key, value] of Object.entries(getProxyRequestHeaders(event))) {
-		if (!STRIP.includes(key.toLowerCase()) && value)
+		if (ALLOW.includes(key.toLowerCase()) && value)
 			headers[key] = String(value);
 	}
 
-	const body = ["POST", "PUT", "PATCH"].includes(event.method)
-		? new Uint8Array((await readRawBody(event, false)) ?? [])
-		: undefined;
+	const hasBody = ["POST", "PUT", "PATCH"].includes(event.method);
+	const declared = Number(getRequestHeader(event, "content-length") ?? 0);
+	if (hasBody && declared > MAX_BODY_BYTES)
+		throw createError({ statusCode: 413, statusMessage: "Payload Too Large" });
+	const raw = hasBody ? await readRawBody(event, false) : undefined;
+	if (raw && raw.length > MAX_BODY_BYTES)
+		throw createError({ statusCode: 413, statusMessage: "Payload Too Large" });
+	const body = raw ? new Uint8Array(raw) : undefined;
 
 	return sendProxy(event, target, {
 		fetchOptions: { method: event.method, headers, body },

@@ -90,3 +90,20 @@
 section[id] {
 	scroll-margin-top: 5rem;
 }
+
+/* Cookiebanner in LoanLink-huisstijl */
+#cc-main {
+	--cc-font-family: inherit;
+	--cc-modal-border-radius: 0.75rem;
+	--cc-btn-border-radius: 0.5rem;
+	--cc-btn-primary-bg: var(--ui-primary);
+	--cc-btn-primary-border-color: var(--ui-primary);
+	--cc-btn-primary-hover-bg: var(--ui-color-primary-600);
+	--cc-btn-primary-hover-border-color: var(--ui-color-primary-600);
+	--cc-link-color: var(--ui-primary);
+}
+
+/* Weigeren en accepteren even groot (AP: weigeren even makkelijk als accepteren) */
+#cc-main .cm--inline .cm__btn-group {
+	grid-auto-columns: 1fr;
+}

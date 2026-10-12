@@ -18,6 +18,8 @@ const origin = new URL(base);
 const expectAnalytics = process.env.EXPECT_ANALYTICS === "1";
 const expectCommit = process.env.EXPECT_COMMIT ?? "";
 const extraHosts = (process.env.EXTRA_HOSTS ?? "").split(",").filter(Boolean);
+// EXPECT_PIXEL=1: de build heeft een (test-)pixel-ID; na "Accepteren" moet de pixel laden.
+const expectPixel = process.env.EXPECT_PIXEL === "1";
 // Herkenbaar als controle (PostHog: filter deze user-agent als intern verkeer).
 const userAgent =
 	"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36 loanlink-controle";
@@ -165,12 +167,28 @@ for (const vp of [
 		const body = await page.locator("body").innerText();
 		for (const re of FORBIDDEN)
 			ok(!re.test(body), `${vp.name} ${path}: geen "${re.source}"`);
-		const main = body.replace(footer, "");
-		if (/\d\s?%/.test(main))
-			ok(
-				/indicatief/i.test(main),
-				`${vp.name} ${path}: percentages staan erbij als "indicatief"`
+		// Elk percentage moet in zijn eigen blok (dichtstbijzijnde section/article)
+		// bij "indicatief" staan; één disclaimer elders op de pagina telt niet.
+		const zonderDisclaimer = await page.evaluate(() => {
+			const missing = [];
+			const walker = document.createTreeWalker(
+				document.querySelector("main") ?? document.body,
+				NodeFilter.SHOW_TEXT
 			);
+			for (let n = walker.nextNode(); n; n = walker.nextNode()) {
+				if (!/\d\s?%/.test(n.textContent ?? "")) continue;
+				const el = n.parentElement;
+				if (!el || el.closest("footer")) continue;
+				const block = el.closest("section, article, main") ?? document.body;
+				if (!/indicatief/i.test(block.innerText))
+					missing.push((n.textContent ?? "").trim().slice(0, 40));
+			}
+			return missing;
+		});
+		ok(
+			zonderDisclaimer.length === 0,
+			`${vp.name} ${path}: elk percentage staat bij "indicatief" (${zonderDisclaimer.join(" | ") || "ok"})`
+		);
 		ok(
 			!/[?&](inkomen|bsn|salaris|email|naam)=/i.test(page.url()),
 			`${vp.name} ${path}: geen persoonsgegevens in URL`
@@ -219,6 +237,92 @@ for (const vp of [
 	);
 	await ctx.close();
 }
+// 4. Cookiebanner en Meta-pixel: niets van Meta vóór toestemming of na weigeren,
+//    weigeren even makkelijk als accepteren, keuze te wijzigen via de footer.
+{
+	const isMeta = (u) => /(^|\.)(facebook\.(com|net))$/.test(new URL(u).host);
+	const metaCookies = async (ctx) =>
+		(await ctx.cookies()).filter((c) => /^_fb[pc]$/.test(c.name)).map((c) => c.name);
+	const newCtx = async () => {
+		const ctx = await browser.newContext({ userAgent });
+		await ctx.addInitScript(() =>
+			Object.defineProperty(navigator, "webdriver", { get: () => false })
+		);
+		// De controle beantwoordt Meta zelf: niets gaat echt naar Meta. De nep-pixel
+		// zet een _fbp-cookie zoals de echte, zodat het opruimen getoetst wordt.
+		const hits = [];
+		await ctx.route(isMeta, (route) => {
+			hits.push(route.request().url());
+			return route.fulfill({
+				status: 200,
+				contentType: "application/javascript",
+				body: "document.cookie='_fbp=fb.1.controle; path=/; max-age=7776000';window.fbq&&(window.fbq.callMethod=function(){});",
+			});
+		});
+		await ctx.route(
+			(url) => url.origin === origin.origin && url.pathname.startsWith("/data/"),
+			(route) => route.fulfill({ status: 200, body: "{}" })
+		);
+		return { ctx, hits };
+	};
+	const banner = "#cc-main .cm";
+
+	// a. Weigeren
+	{
+		const { ctx, hits } = await newCtx();
+		const page = await ctx.newPage();
+		await page.goto(base + "/", { waitUntil: "networkidle" });
+		const visible = await page
+			.waitForSelector(banner, { state: "visible", timeout: 8000 })
+			.then(() => true)
+			.catch(() => false);
+		ok(visible, "cookiebanner verschijnt bij eerste bezoek");
+		const accept = page.locator('#cc-main [data-role="all"]');
+		const reject = page.locator('#cc-main [data-role="necessary"]');
+		ok(
+			(await accept.count()) === 1 && (await reject.count()) === 1,
+			'banner heeft "Accepteren" en "Alleen noodzakelijk"'
+		);
+		if (visible) {
+			const [a, r] = [await accept.boundingBox(), await reject.boundingBox()];
+			ok(
+				a && r && Math.abs(a.height - r.height) < 2 && Math.abs(a.width - r.width) < 2,
+				"weigeren is even groot als accepteren"
+			);
+		}
+		ok(hits.length === 0, "niets van Meta geladen vóór een keuze");
+		if (visible) await reject.click();
+		await page.goto(base + "/privacy", { waitUntil: "networkidle" });
+		ok(hits.length === 0, "na weigeren: niets van Meta geladen");
+		ok(!(await page.isVisible(banner)), "na weigeren: banner blijft weg");
+		ok((await metaCookies(ctx)).length === 0, "na weigeren: geen cookies van Meta");
+		await ctx.close();
+	}
+
+	// b. Accepteren en daarna intrekken via de footer
+	if (expectPixel) {
+		const { ctx, hits } = await newCtx();
+		const page = await ctx.newPage();
+		await page.goto(base + "/", { waitUntil: "networkidle" });
+		await page.click('#cc-main [data-role="all"]');
+		await page.waitForTimeout(1500);
+		ok(hits.length > 0, "na accepteren: Meta-pixel laadt");
+		ok((await metaCookies(ctx)).length > 0, "na accepteren: cookie van Meta gezet");
+		await page.click('footer button:has-text("Cookie-instellingen")');
+		await page.waitForSelector(banner, { state: "visible" });
+		await Promise.all([
+			page.waitForNavigation(),
+			page.click('#cc-main [data-role="necessary"]'),
+		]);
+		await page.waitForLoadState("networkidle");
+		const before = hits.length;
+		await page.goto(base + "/contact", { waitUntil: "networkidle" });
+		ok((await metaCookies(ctx)).length === 0, "na intrekken: cookie van Meta verwijderd");
+		ok(hits.length === before, "na intrekken: pixel laadt niet meer");
+		await ctx.close();
+	}
+}
+
 await browser.close();
 
 console.log(

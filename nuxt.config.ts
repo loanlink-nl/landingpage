@@ -37,7 +37,9 @@ export default defineNuxtConfig({
 		public: {
 			// Zelfde env-variabele als voorheen (nuxt-posthog), zodat de deploy niet verandert.
 			posthogKey: process.env.POSTHOG_API_KEY ?? "",
-			posthogApiHost: `${baseUrl}/data`,
+			// Meta-pixel; laadt pas na toestemming (app/plugins/cookieconsent.client.ts).
+			// Leeg = geen pixel. Op Railway: META_PIXEL_ID (of NUXT_PUBLIC_META_PIXEL_ID).
+			metaPixelId: process.env.META_PIXEL_ID ?? "",
 			// Railway zet deze bij elke build; de live-controle wacht tot deze gelijk is aan de gemergde commit.
 			commitSha:
 				process.env.RAILWAY_GIT_COMMIT_SHA ?? process.env.COMMIT_SHA ?? "",

@@ -10,7 +10,13 @@
 							: "Er ging iets mis"
 					}}
 				</h1>
-				<p class="text-muted">Deze pagina bestaat niet (meer).</p>
+				<p class="text-muted">
+					{{
+						error?.statusCode === 404
+							? "Deze pagina bestaat niet (meer)."
+							: "Probeer het later opnieuw of ga terug naar de homepage."
+					}}
+				</p>
 				<UButton color="primary" @click="clearError({ redirect: '/' })">
 					Naar de homepage
 				</UButton>

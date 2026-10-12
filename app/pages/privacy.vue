@@ -53,6 +53,19 @@
 							</tr>
 							<tr>
 								<td>
+									Alleen met uw toestemming: bezochte pagina's, browser- en
+									apparaatgegevens, uw IP-adres en een cookie-ID, via de
+									Meta-pixel
+								</td>
+								<td>Meten welke advertenties op Facebook en Instagram werken</td>
+								<td>Toestemming</td>
+								<td>
+									De cookie van Meta (<code>_fbp</code>) vervalt na 90 dagen; wat
+									Meta zelf bewaart, staat in het privacybeleid van Meta
+								</td>
+							</tr>
+							<tr>
+								<td>
 									Contact per e-mail of telefoon: naam, contactgegevens en de
 									inhoud van uw bericht
 								</td>
@@ -88,21 +101,37 @@
 						van de Europese Commissie.
 					</p>
 					<p>
-						We gebruiken op dit moment geen Meta-pixel en geen andere
-						advertentietracking. Gaan we dat wel doen, dan vragen we eerst uw
-						toestemming en passen we deze verklaring aan. Meta (Facebook,
-						Instagram) noemen we dan hier als ontvanger.
+						Geeft u in de cookiebanner toestemming, dan plaatsen we de Meta-pixel
+						van Meta Platforms Ireland Ltd. (Facebook, Instagram). Voor het
+						verzamelen en doorgeven van deze gegevens zijn wij en Meta samen
+						verantwoordelijk. Wat Meta daarna met de gegevens doet, valt onder het
+						<a
+							href="https://www.facebook.com/privacy/policy"
+							target="_blank"
+							rel="noopener"
+							>privacybeleid van Meta</a
+						>. Meta kan gegevens doorgeven naar de Verenigde Staten; Meta valt
+						daarvoor onder het EU-VS Data Privacy Framework.
 					</p>
 				</section>
 
 				<section id="cookies">
 					<h2>Cookies</h2>
 					<p>
-						Deze website plaatst geen tracking-, analyse- of marketingcookies.
+						Bij uw eerste bezoek vragen we in een banner of u cookies van
+						advertentiepartners toestaat. Kiest u "Alleen noodzakelijk", dan
+						werkt de website precies hetzelfde en plaatsen we alleen een cookie
+						die uw keuze onthoudt (<code>cc_cookie</code>, 6 maanden). Kiest u
+						"Accepteren", dan plaatsen we daarnaast de Meta-pixel met de cookie
+						<code>_fbp</code> (90 dagen). U kunt uw keuze altijd wijzigen via
+						"Cookie-instellingen" onderaan elke pagina; trekt u uw toestemming
+						in, dan verwijderen we die cookie.
+					</p>
+					<p>
 						Onze bezoekstatistieken werken zonder cookies en zonder opslag in uw
 						browser: we herkennen u niet bij een volgend bezoek, en we sturen
-						geen cookies of IP-adres door naar onze analysedienst. Daarom vragen
-						we geen toestemming via een cookiebanner.
+						geen cookies of IP-adres door naar onze analysedienst. Daarvoor
+						vragen we daarom geen toestemming.
 					</p>
 					<p>
 						Bent u ingelogd in de LoanLink-app, dan leest de website één

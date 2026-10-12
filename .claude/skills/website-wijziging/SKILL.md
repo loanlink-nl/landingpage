@@ -35,8 +35,8 @@ Draai en laat alles groen worden. Herstel alleen je eigen inhoudswijziging; faal
 pas dan de controle níet aan maar meld het in de pull request.
 1. `pnpm install --frozen-lockfile` en (eenmalig) `pnpm exec playwright install chromium`; controleer dat `bun` er is
 2. `pnpm typecheck && pnpm lint`
-3. `SITE_URL=http://localhost:3000 POSTHOG_API_KEY=phc_test pnpm build`
-4. Start de build (`PORT=3000 bun .output/server/index.mjs &`) en draai `BASE_URL=http://localhost:3000 EXPECT_ANALYTICS=1 pnpm check:site`
+3. `SITE_URL=http://localhost:3000 POSTHOG_API_KEY=phc_test META_PIXEL_ID=000000000000000 pnpm build`
+4. Start de build (`PORT=3000 bun .output/server/index.mjs &`) en draai `BASE_URL=http://localhost:3000 EXPECT_ANALYTICS=1 EXPECT_PIXEL=1 pnpm check:site`
 5. Maak een schermafbeelding (desktop én mobiel, 375px breed) van elke gewijzigde pagina en bekijk die zelf: ziet het eruit zoals gevraagd?
 
 ## 5. Pull request

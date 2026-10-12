@@ -26,13 +26,14 @@ jobs:
         env:
           SITE_URL: http://localhost:3000
           POSTHOG_API_KEY: phc_ci_test
+          META_PIXEL_ID: "000000000000000"
           COMMIT_SHA: ${{ github.sha }}
       - run: pnpm exec playwright install --with-deps chromium
       - name: Sitecontrole
         run: |
           PORT=3000 bun .output/server/index.mjs > server.log 2>&1 &
           for i in $(seq 1 30); do curl -sf http://localhost:3000/ >/dev/null && break; sleep 1; done
-          BASE_URL=http://localhost:3000 EXPECT_ANALYTICS=1 EXPECT_COMMIT=${{ github.sha }} pnpm check:site
+          BASE_URL=http://localhost:3000 EXPECT_ANALYTICS=1 EXPECT_PIXEL=1 EXPECT_COMMIT=${{ github.sha }} pnpm check:site
       - name: Serverlog bij fout
         if: failure()
         run: cat server.log || true
