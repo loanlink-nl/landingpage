@@ -121,16 +121,24 @@ for (const vp of [
 		Object.defineProperty(navigator, "webdriver", { get: () => false });
 		Object.defineProperty(navigator, "userAgentData", { get: () => undefined });
 	});
-	// Events van deze controle nooit echt doorsturen: tellen, en zelf "ok" antwoorden,
-	// zodat de dagelijkse controle de bezoekstatistiek niet vervuilt.
-	await ctx.route(/\/data\/(e|i\/v0\/e|batch)\//, (route) => {
-		eventsSent++;
-		return route.fulfill({
-			status: 200,
-			contentType: "application/json",
-			body: '{"status":1}',
-		});
-	});
+	// Alle statistiekverkeer (/data/...) beantwoordt de controle zelf: niets gaat naar
+	// PostHog (geen vervuiling, geen afhankelijkheid van een echte sleutel in CI).
+	await ctx.route(
+		(url) => url.origin === origin.origin && url.pathname.startsWith("/data/"),
+		(route) => {
+			if (
+				/^\/data\/(e|i\/v0\/e|batch)\//.test(
+					new URL(route.request().url()).pathname
+				)
+			)
+				eventsSent++;
+			return route.fulfill({
+				status: 200,
+				contentType: "application/json",
+				body: "{}",
+			});
+		}
+	);
 	const page = await ctx.newPage();
 	const thirdParty = new Set();
 	const errors = [];
