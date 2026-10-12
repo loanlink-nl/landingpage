@@ -11,6 +11,11 @@
 				</span>
 
 				<TranscriptionPlayer />
+
+				<p class="text-center text-xs text-muted">
+					Voorbeeldgesprek. Genoemde bedragen en rentes zijn indicatief en geen
+					financieel advies.
+				</p>
 			</section>
 
 			<USPSection />

@@ -11,7 +11,9 @@
 		"lint": "eslint .",
 		"typecheck": "vue-tsc --noEmit",
 		"format": "prettier --write .",
-		"fix": "pnpm run format && pnpm run lint"
+		"fix": "pnpm run format && pnpm run lint",
+		"check:site": "node scripts/check-site.mjs",
+		"postinstall": "nuxt prepare"
 	},
 	"dependencies": {
 		"@iconify-json/logos": "^1.2.4",
@@ -29,12 +31,14 @@
 		"marked": "^15.0.12",
 		"nuxt": "^3.17.3",
 		"nuxt-og-image": "5.1.4",
-		"nuxt-posthog": "1.6.3",
 		"nuxt-seo-utils": "^7.0.12",
+		"posthog-js": "1.248.1",
 		"tailwindcss": "^4.1.7",
-		"unstorage": "^1.16.0"
+		"unstorage": "^1.16.0",
+		"vanilla-cookieconsent": "3.1.0"
 	},
 	"devDependencies": {
+		"playwright": "1.56.0",
 		"prettier": "^3.5.3",
 		"typescript": "^5.8.3",
 		"vue-tsc": "^2.2.10"
