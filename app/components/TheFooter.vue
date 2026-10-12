@@ -25,10 +25,22 @@
 			<ULink to="/privacy" class="hover:text-primary-500">
 				Privacyverklaring
 			</ULink>
+			<button
+				type="button"
+				class="text-left hover:text-primary-500 cursor-pointer"
+				@click="openCookieSettings"
+			>
+				Cookie-instellingen
+			</button>
 		</div>
 	</footer>
 </template>
 
 <script setup lang="ts">
 import { company } from "~/utils/company";
+
+async function openCookieSettings() {
+	const CookieConsent = await import("vanilla-cookieconsent");
+	CookieConsent.showPreferences();
+}
 </script>

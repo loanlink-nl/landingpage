@@ -85,3 +85,32 @@
 .markdown img {
 	max-width: 100%;
 }
+
+/* Cookiebanner in LoanLink-huisstijl */
+#cc-main {
+	--cc-font-family: inherit;
+	--cc-modal-border-radius: 0.75rem;
+	--cc-btn-border-radius: 0.5rem;
+	--cc-btn-primary-bg: var(--ui-primary);
+	--cc-btn-primary-border-color: var(--ui-primary);
+	--cc-btn-primary-hover-bg: var(--ui-color-primary-600);
+	--cc-btn-primary-hover-border-color: var(--ui-color-primary-600);
+	--cc-toggle-on-bg: var(--ui-primary);
+	--cc-link-color: var(--ui-primary);
+}
+
+/* Keuzescherm: geen lege ruimte tussen opties en knoppen */
+#cc-main .pm.pm--box {
+	height: auto;
+	max-height: calc(100vh - 2rem);
+}
+
+@media (max-width: 640px) {
+	#cc-main .pm.pm--box {
+		top: auto;
+		bottom: 0;
+		max-height: 90vh;
+		border-radius: 0.75rem 0.75rem 0 0;
+		transform: none;
+	}
+}

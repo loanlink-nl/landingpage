@@ -59,12 +59,18 @@ importers:
       nuxt-seo-utils:
         specifier: ^7.0.12
         version: 7.0.19(h3@1.15.4)(magicast@0.5.1)(rollup@4.54.0)(unhead@2.1.1)(vue@3.5.25(typescript@5.9.3))
+      posthog-js:
+        specifier: 1.248.1
+        version: 1.248.1
       tailwindcss:
         specifier: ^4.1.7
         version: 4.1.18
       unstorage:
         specifier: ^1.16.0
         version: 1.17.3(@netlify/blobs@9.1.1)(db0@0.3.4(better-sqlite3@11.10.0))(ioredis@5.8.2)
+      vanilla-cookieconsent:
+        specifier: 3.1.0
+        version: 3.1.0
     devDependencies:
       prettier:
         specifier: ^3.5.3
@@ -5537,6 +5543,9 @@ packages:
     peerDependenciesMeta:
       typescript:
         optional: true
+
+  vanilla-cookieconsent@3.1.0:
+    resolution: {integrity: sha512-/McNRtm/3IXzb9dhqMIcbquoU45SzbN2VB+To4jxEPqMmp7uVniP6BhGLjU8MC7ZCDsNQVOp27fhQTM/ruIXAA==}
 
   vaul-vue@0.4.1:
     resolution: {integrity: sha512-A6jOWOZX5yvyo1qMn7IveoWN91mJI5L3BUKsIwkg6qrTGgHs1Sb1JF/vyLJgnbN1rH4OOOxFbtqL9A46bOyGUQ==}
@@ -12115,6 +12124,8 @@ snapshots:
   valibot@1.1.0(typescript@5.9.3):
     optionalDependencies:
       typescript: 5.9.3
+
+  vanilla-cookieconsent@3.1.0: {}
 
   vaul-vue@0.4.1(reka-ui@2.6.0(typescript@5.9.3)(vue@3.5.25(typescript@5.9.3)))(vue@3.5.25(typescript@5.9.3)):
     dependencies:

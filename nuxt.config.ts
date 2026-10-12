@@ -32,11 +32,10 @@ export default defineNuxtConfig({
 		url: baseUrl,
 		name: "LoanLink Adviesintake",
 	},
+	// PostHog start niet automatisch: app/plugins/cookieconsent.client.ts
+	// start het pas na toestemming voor statistieken.
 	posthog: {
-		clientOptions: {
-			api_host: `${baseUrl}/data`,
-			ui_host: "https://eu.posthog.com",
-		},
+		disabled: true,
 	},
 	nitro: {
 		preset: "bun",

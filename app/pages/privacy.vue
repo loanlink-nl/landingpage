@@ -48,7 +48,8 @@
 							meten we hoe bezoekers de website gebruiken: welke pagina's ze
 							bekijken, waar ze op klikken, het type apparaat en browser, en een
 							van het IP-adres afgeleide globale locatie. PostHog geeft uw
-							browser daarvoor een willekeurige bezoekers-ID.
+							browser daarvoor een willekeurige bezoekers-ID. Dit gebeurt alleen
+							als u toestemming geeft voor statistieken.
 						</li>
 						<li>
 							<strong>Contact.</strong> Als u ons mailt of belt, verwerken we
@@ -62,7 +63,7 @@
 					<ul class="list-disc pl-6 flex flex-col gap-1">
 						<li>
 							Websitebezoek: om de website en ons aanbod te verbeteren. Dit doen
-							we op basis van ons gerechtvaardigd belang.
+							we alleen met uw toestemming.
 						</li>
 						<li>
 							Contact: om uw vraag te beantwoorden. Dit doen we op basis van ons
@@ -78,15 +79,23 @@
 
 				<section class="flex flex-col gap-2">
 					<h2 class="text-xl font-semibold">Cookies en vergelijkbare techniek</h2>
+					<p>
+						Bij uw eerste bezoek vragen we welke cookies u toestaat. U kunt uw
+						keuze altijd wijzigen via "Cookie-instellingen" onderaan elke
+						pagina.
+					</p>
 					<ul class="list-disc pl-6 flex flex-col gap-1">
 						<li>
-							<strong>PostHog</strong> plaatst een cookie en gebruikt de opslag
-							in uw browser om bezoeken te herkennen.
+							<strong>Noodzakelijk.</strong> Een cookie die uw cookiekeuze
+							onthoudt, en de cookie <em>isLoggedIn</em> van de LoanLink-app. De
+							website leest die alleen uit om ingelogde gebruikers de knop "Ga
+							naar de app" te tonen. Hiervoor vragen we geen toestemming.
 						</li>
 						<li>
-							<strong>isLoggedIn</strong> is een functionele cookie van de
-							LoanLink-app. De website leest die alleen uit om ingelogde
-							gebruikers de knop "Ga naar de app" te tonen.
+							<strong>Statistieken.</strong> Alleen als u dat toestaat, starten
+							we PostHog. PostHog plaatst dan een cookie en gebruikt de opslag
+							in uw browser om bezoeken te herkennen. Trekt u uw toestemming in,
+							dan stoppen we de meting en verwijderen we deze cookies.
 						</li>
 					</ul>
 				</section>
