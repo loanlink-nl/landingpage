@@ -1,0 +1,38 @@
+name: Controle website
+
+# Bij elke pull request: bouwen en de sitecontrole draaien op de lokale build.
+# Groen = de wijziging voldoet aan de website-checklist (zie CLAUDE.md).
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  controle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - uses: oven-sh/setup-bun@v2
+      - run: pnpm install --frozen-lockfile # draait ook `nuxt prepare` (postinstall)
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - name: Bouwen
+        run: pnpm build
+        env:
+          SITE_URL: http://localhost:3000
+          POSTHOG_API_KEY: phc_ci_test
+          COMMIT_SHA: ${{ github.sha }}
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Sitecontrole
+        run: |
+          PORT=3000 bun .output/server/index.mjs > server.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://localhost:3000/ >/dev/null && break; sleep 1; done
+          BASE_URL=http://localhost:3000 EXPECT_ANALYTICS=1 EXPECT_COMMIT=${{ github.sha }} pnpm check:site
+      - name: Serverlog bij fout
+        if: failure()
+        run: cat server.log || true

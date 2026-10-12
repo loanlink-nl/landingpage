@@ -79,11 +79,13 @@
 					<h2>Met wie delen we gegevens?</h2>
 					<p>
 						We verkopen geen gegevens. We schakelen leveranciers in die gegevens
-						namens ons verwerken: PostHog (bezoekstatistieken, servers in de EU)
-						en onze hosting- en e-mailleveranciers. Met hen hebben we
-						verwerkersafspraken. Verwerkt een leverancier gegevens buiten de
-						Europese Economische Ruimte, dan zorgen we voor passende waarborgen,
-						zoals de modelcontractbepalingen van de Europese Commissie.
+						namens ons verwerken: PostHog (bezoekstatistieken, servers in de
+						EU), Cloudflare (beveiliging en snelheid van de website; verwerkt
+						daarvoor technisch uw IP-adres) en onze hosting- en
+						e-mailleveranciers. Met hen hebben we verwerkersafspraken. Verwerkt
+						een leverancier gegevens buiten de Europese Economische Ruimte, dan
+						zorgen we voor passende waarborgen, zoals de modelcontractbepalingen
+						van de Europese Commissie.
 					</p>
 					<p>
 						We gebruiken op dit moment geen Meta-pixel en geen andere

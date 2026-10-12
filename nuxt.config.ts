@@ -1,9 +1,11 @@
 import { defineNuxtConfig } from "nuxt/config";
 import tailwindcss from "@tailwindcss/vite";
 
-const baseUrl = import.meta.env.RAILWAY_PUBLIC_DOMAIN
-	? `https://${import.meta.env.RAILWAY_PUBLIC_DOMAIN}`
-	: "https://loanlink.nl";
+const baseUrl = process.env.SITE_URL
+	? process.env.SITE_URL
+	: import.meta.env.RAILWAY_PUBLIC_DOMAIN
+		? `https://${import.meta.env.RAILWAY_PUBLIC_DOMAIN}`
+		: "https://loanlink.nl";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -36,6 +38,9 @@ export default defineNuxtConfig({
 			// Zelfde env-variabele als voorheen (nuxt-posthog), zodat de deploy niet verandert.
 			posthogKey: process.env.POSTHOG_API_KEY ?? "",
 			posthogApiHost: `${baseUrl}/data`,
+			// Railway zet deze bij elke build; de live-controle wacht tot deze gelijk is aan de gemergde commit.
+			commitSha:
+				process.env.RAILWAY_GIT_COMMIT_SHA ?? process.env.COMMIT_SHA ?? "",
 		},
 	},
 	nitro: {

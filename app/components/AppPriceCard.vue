@@ -7,7 +7,7 @@
 		</p>
 		<ul class="space-y-2 flex-grow mb-6">
 			<li v-for="feature in features" :key="feature" class="flex items-center">
-				<UIcon name="i-heroicons-check" class="text-green-500 mr-2" />
+				<UIcon name="i-lucide-check" class="text-green-500 mr-2" />
 				{{ feature }}
 			</li>
 		</ul>

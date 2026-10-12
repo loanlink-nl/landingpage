@@ -1,0 +1,51 @@
+name: Live-controle loanlink.nl
+
+# Railway zet main automatisch live. Na elke merge wacht deze controle tot de
+# nieuwe versie echt live staat (meta x-commit = gemergde commit) en toetst dan
+# de echte site. Daarnaast elke ochtend. Bij rood wordt een issue aangemaakt.
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 5 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+      - name: Controleren
+        env:
+          # Alleen na een merge: eerst wachten tot precies deze commit live staat.
+          EXPECT_COMMIT: ${{ github.event_name == 'push' && github.sha || '' }}
+        run: |
+          for i in $(seq 1 15); do
+            set +e
+            BASE_URL=https://loanlink.nl EXPECT_ANALYTICS=1 pnpm check:site > resultaat.txt 2>&1
+            code=$?
+            set -e
+            if [ $code -ne 2 ]; then cat resultaat.txt; exit $code; fi
+            echo "Nieuwe versie nog niet live (poging $i), wacht 60s"; sleep 60
+          done
+          cat resultaat.txt; echo "Nieuwe versie na 15 minuten niet live"; exit 1
+      - name: Issue bij fout
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create --title "Live-controle loanlink.nl mislukt ($(date +%F))" \
+            --body "De controle van de live site is rood. Zie ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}" \
+            --assignee GustaafS || true
