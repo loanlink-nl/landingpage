@@ -8,6 +8,7 @@
  * Toetst de website-checklist (Meta-verificatie, AVG, Wft) op ÁLLE pagina's die
  * vanaf de homepage bereikbaar zijn. Dit bestand wijzigen = langs Gustaaf (CODEOWNERS).
  */
+import { gunzipSync } from "node:zlib";
 import { chromium } from "playwright";
 
 const base = (process.env.BASE_URL ?? "http://localhost:3000").replace(
@@ -33,6 +34,10 @@ const COMPANY = {
 	city: "1023 AS Amsterdam",
 	email: "info@loanlink.nl",
 };
+// Afgesproken bannertekst (Gustaaf, 12-10-2026).
+const BANNER_TITLE = "Helpt u ons ontdekken welke campagnes werken?";
+const BANNER_TEXT =
+	"Met uw toestemming gebruiken we hiervoor cookies van advertentiepartners.";
 const FOOTER_MUST = [...Object.values(COMPANY), "geen hypotheekadvies"];
 // Wft/reclame: claims die LoanLink niet mag doen.
 const FORBIDDEN = [
@@ -242,7 +247,9 @@ for (const vp of [
 {
 	const isMeta = (u) => /(^|\.)(facebook\.(com|net))$/.test(new URL(u).host);
 	const metaCookies = async (ctx) =>
-		(await ctx.cookies()).filter((c) => /^_fb[pc]$/.test(c.name)).map((c) => c.name);
+		(await ctx.cookies())
+			.filter((c) => /^_fb[pc]$/.test(c.name))
+			.map((c) => c.name);
 	const newCtx = async () => {
 		const ctx = await browser.newContext({ userAgent });
 		await ctx.addInitScript(() =>
@@ -260,7 +267,8 @@ for (const vp of [
 			});
 		});
 		await ctx.route(
-			(url) => url.origin === origin.origin && url.pathname.startsWith("/data/"),
+			(url) =>
+				url.origin === origin.origin && url.pathname.startsWith("/data/"),
 			(route) => route.fulfill({ status: 200, body: "{}" })
 		);
 		return { ctx, hits };
@@ -283,10 +291,33 @@ for (const vp of [
 			(await accept.count()) === 1 && (await reject.count()) === 1,
 			'banner heeft "Accepteren" en "Alleen noodzakelijk"'
 		);
+		const buttons = (
+			await page.locator("#cc-main .cm button").allInnerTexts()
+		).map((t) => t.trim());
+		ok(
+			buttons.length === 2 &&
+				buttons.includes("Accepteren") &&
+				buttons.includes("Alleen noodzakelijk"),
+			`banner heeft precies twee knoppen (${buttons.join(" | ")})`
+		);
+		const bannerText = visible ? await page.locator(banner).innerText() : "";
+		ok(
+			bannerText.includes(BANNER_TITLE) && bannerText.includes(BANNER_TEXT),
+			"bannertekst is de afgesproken tekst"
+		);
+		ok(
+			!(await page.evaluate(() =>
+				document.documentElement.classList.contains("disable--interaction")
+			)),
+			"geen cookiewall: de site blijft bruikbaar terwijl de banner openstaat"
+		);
 		if (visible) {
 			const [a, r] = [await accept.boundingBox(), await reject.boundingBox()];
 			ok(
-				a && r && Math.abs(a.height - r.height) < 2 && Math.abs(a.width - r.width) < 2,
+				a &&
+					r &&
+					Math.abs(a.height - r.height) < 2 &&
+					Math.abs(a.width - r.width) < 2,
 				"weigeren is even groot als accepteren"
 			);
 		}
@@ -295,7 +326,18 @@ for (const vp of [
 		await page.goto(base + "/privacy", { waitUntil: "networkidle" });
 		ok(hits.length === 0, "na weigeren: niets van Meta geladen");
 		ok(!(await page.isVisible(banner)), "na weigeren: banner blijft weg");
-		ok((await metaCookies(ctx)).length === 0, "na weigeren: geen cookies van Meta");
+		ok(
+			(await metaCookies(ctx)).length === 0,
+			"na weigeren: geen cookies van Meta"
+		);
+		await page.click('footer button:has-text("Cookie-instellingen")');
+		ok(
+			await page
+				.waitForSelector(banner, { state: "visible", timeout: 5000 })
+				.then(() => true)
+				.catch(() => false),
+			'"Cookie-instellingen" in de footer toont de banner opnieuw'
+		);
 		await ctx.close();
 	}
 
@@ -307,7 +349,10 @@ for (const vp of [
 		await page.click('#cc-main [data-role="all"]');
 		await page.waitForTimeout(1500);
 		ok(hits.length > 0, "na accepteren: Meta-pixel laadt");
-		ok((await metaCookies(ctx)).length > 0, "na accepteren: cookie van Meta gezet");
+		ok(
+			(await metaCookies(ctx)).length > 0,
+			"na accepteren: cookie van Meta gezet"
+		);
 		await page.click('footer button:has-text("Cookie-instellingen")');
 		await page.waitForSelector(banner, { state: "visible" });
 		await Promise.all([
@@ -317,10 +362,75 @@ for (const vp of [
 		await page.waitForLoadState("networkidle");
 		const before = hits.length;
 		await page.goto(base + "/contact", { waitUntil: "networkidle" });
-		ok((await metaCookies(ctx)).length === 0, "na intrekken: cookie van Meta verwijderd");
+		ok(
+			(await metaCookies(ctx)).length === 0,
+			"na intrekken: cookie van Meta verwijderd"
+		);
 		ok(hits.length === before, "na intrekken: pixel laadt niet meer");
 		await ctx.close();
 	}
+}
+
+// 5. Wat er naar de bezoekstatistiek gaat: geen querystring, #-deel, klik-ID's,
+//    e-mailadressen of zoekwoorden, ook niet als de bezoeker die in de URL meebrengt.
+if (expectAnalytics) {
+	const MARK = "CONTROLE7Q";
+	const ctx = await browser.newContext({
+		userAgent,
+		extraHTTPHeaders: { referer: `https://www.google.com/search?q=${MARK}` },
+	});
+	await ctx.addInitScript(() => {
+		Object.defineProperty(navigator, "webdriver", { get: () => false });
+		Object.defineProperty(navigator, "userAgentData", { get: () => undefined });
+	});
+	const bodies = [];
+	await ctx.route(
+		(url) => url.origin === origin.origin && url.pathname.startsWith("/data/"),
+		(route) => {
+			const req = route.request();
+			const buf = req.postDataBuffer();
+			if (buf) {
+				let text = "";
+				try {
+					text =
+						new URL(req.url()).searchParams.get("compression") === "gzip-js"
+							? gunzipSync(buf).toString("utf8")
+							: buf.toString("utf8");
+					const form = new URLSearchParams(text).get("data");
+					if (form) text = Buffer.from(form, "base64").toString("utf8");
+				} catch {
+					text = buf.toString("utf8");
+				}
+				bodies.push(text);
+			}
+			return route.fulfill({
+				status: 200,
+				contentType: "application/json",
+				body: "{}",
+			});
+		}
+	);
+	const page = await ctx.newPage();
+	await page.goto(
+		`${base}/?fbclid=${MARK}&gclid=${MARK}&email=controle%40voorbeeld.nl#${MARK}`,
+		{ waitUntil: "networkidle" }
+	);
+	await page.goto(`${base}/privacy?naam=${MARK}`, { waitUntil: "networkidle" });
+	await page.waitForTimeout(5000);
+	const all = bodies.join("\n");
+	ok(
+		bodies.length > 0,
+		`statistiek-inhoud gecontroleerd (${bodies.length} verzoeken)`
+	);
+	ok(
+		!all.includes(MARK) && !all.includes("controle@voorbeeld.nl"),
+		"statistiek bevat geen querystring-, klik-ID- of zoekwoordgegevens"
+	);
+	ok(
+		!/https?:\/\/[^"\s]*[?#]/.test(all),
+		"statistiek bevat geen URL's met querystring of #-deel"
+	);
+	await ctx.close();
 }
 
 await browser.close();

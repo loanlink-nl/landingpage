@@ -8,8 +8,11 @@ import * as CookieConsent from "vanilla-cookieconsent";
  * mag laden (cookies van advertentiepartners). Zonder toestemming laadt er niets
  * van Meta. PostHog is cookieloos en valt hier niet onder (posthog.client.ts).
  *
- * Pixel-ID komt uit runtimeConfig.public.metaPixelId (env META_PIXEL_ID).
- * Leeg = geen pixel, ook niet na toestemming.
+ * Pixel-ID komt uit runtimeConfig.public.metaPixelId: env META_PIXEL_ID bij de
+ * build, of NUXT_PUBLIC_META_PIXEL_ID tijdens het draaien. Leeg = geen pixel.
+ *
+ * Bekende beperking van de controle (scripts/check-site.mjs): op localhost kan
+ * het wissen van cookies op het hoofddomein (.loanlink.nl) niet getoetst worden.
  *
  * Verandert er iets aan wat er na toestemming laadt? Verhoog dan REVISION,
  * zodat elke bezoeker opnieuw gevraagd wordt.
@@ -56,7 +59,12 @@ export default defineNuxtPlugin(() => {
 		fbq("set", "autoConfig", false, metaPixelId);
 		fbq("init", metaPixelId);
 		fbq("track", "PageView");
-		router.afterEach(() => {
+		// Eén PageView per pagina: de eerste router-navigatie van Nuxt (zelfde pad)
+		// niet nog eens tellen.
+		let lastPath = window.location.pathname;
+		router.afterEach((to) => {
+			if (to.path === lastPath) return;
+			lastPath = to.path;
 			if (CookieConsent.acceptedCategory(ADS)) fbq("track", "PageView");
 		});
 	}

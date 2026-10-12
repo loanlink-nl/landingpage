@@ -57,11 +57,14 @@
 									apparaatgegevens, uw IP-adres en een cookie-ID, via de
 									Meta-pixel
 								</td>
-								<td>Meten welke advertenties op Facebook en Instagram werken</td>
+								<td>
+									Meten welke advertenties op Facebook en Instagram werken
+								</td>
 								<td>Toestemming</td>
 								<td>
-									De cookie van Meta (<code>_fbp</code>) vervalt na 90 dagen; wat
-									Meta zelf bewaart, staat in het privacybeleid van Meta
+									De cookies <code>_fbp</code> en <code>_fbc</code> vervallen na
+									90 dagen; wat Meta zelf bewaart, staat in het privacybeleid
+									van Meta
 								</td>
 							</tr>
 							<tr>
@@ -101,17 +104,27 @@
 						van de Europese Commissie.
 					</p>
 					<p>
-						Geeft u in de cookiebanner toestemming, dan plaatsen we de Meta-pixel
-						van Meta Platforms Ireland Ltd. (Facebook, Instagram). Voor het
-						verzamelen en doorgeven van deze gegevens zijn wij en Meta samen
-						verantwoordelijk. Wat Meta daarna met de gegevens doet, valt onder het
+						Geeft u in de cookiebanner toestemming, dan plaatsen we de
+						Meta-pixel van Meta Platforms Ireland Ltd. (Facebook, Instagram).
+						Voor het verzamelen en doorgeven van deze gegevens zijn wij en Meta
+						samen verantwoordelijk. Wat Meta daarna met de gegevens doet, valt
+						onder het
 						<a
 							href="https://www.facebook.com/privacy/policy"
 							target="_blank"
 							rel="noopener"
 							>privacybeleid van Meta</a
-						>. Meta kan gegevens doorgeven naar de Verenigde Staten; Meta valt
-						daarvoor onder het EU-VS Data Privacy Framework.
+						>. De afspraken tussen ons en Meta staan in het
+						<a
+							href="https://www.facebook.com/legal/controller_addendum"
+							target="_blank"
+							rel="noopener"
+							>Controller Addendum van Meta</a
+						>: wij zijn verantwoordelijk voor het verzamelen en doorgeven via
+						onze website, Meta voor de verwerking daarna. U kunt uw rechten bij
+						ons en bij Meta uitoefenen. Meta kan gegevens doorgeven naar de
+						Verenigde Staten; Meta valt daarvoor onder het EU-VS Data Privacy
+						Framework.
 					</p>
 				</section>
 
@@ -123,9 +136,12 @@
 						werkt de website precies hetzelfde en plaatsen we alleen een cookie
 						die uw keuze onthoudt (<code>cc_cookie</code>, 6 maanden). Kiest u
 						"Accepteren", dan plaatsen we daarnaast de Meta-pixel met de cookie
-						<code>_fbp</code> (90 dagen). U kunt uw keuze altijd wijzigen via
-						"Cookie-instellingen" onderaan elke pagina; trekt u uw toestemming
-						in, dan verwijderen we die cookie.
+						<code>_fbp</code> en, als u via een advertentie binnenkomt,
+						<code>_fbc</code> (beide 90 dagen). Meta kan daarbij ook eigen
+						cookies op domeinen van Meta lezen; die vallen onder het beleid van
+						Meta. U kunt uw keuze altijd wijzigen via "Cookie-instellingen"
+						onderaan elke pagina; trekt u uw toestemming in, dan verwijderen we
+						de cookies van Meta op onze website en laadt de pixel niet meer.
 					</p>
 					<p>
 						Onze bezoekstatistieken werken zonder cookies en zonder opslag in uw

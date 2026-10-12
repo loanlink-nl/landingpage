@@ -31,6 +31,9 @@ jobs:
         env:
           # Alleen na een merge: eerst wachten tot precies deze commit live staat.
           EXPECT_COMMIT: ${{ github.event_name == 'push' && github.sha || '' }}
+          # Zet repo-variabele EXPECT_PIXEL op 1 zodra META_PIXEL_ID op Railway staat;
+          # dan toetst de controle ook dat de pixel na "Accepteren" laadt (zonder echt naar Meta te gaan).
+          EXPECT_PIXEL: ${{ vars.EXPECT_PIXEL }}
         run: |
           for i in $(seq 1 15); do
             set +e

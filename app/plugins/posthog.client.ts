@@ -1,4 +1,5 @@
 import posthog from "posthog-js";
+import type { CaptureResult } from "posthog-js";
 
 /**
  * Cookieloze websitestatistiek (AVG / Telecommunicatiewet art. 11.7a).
@@ -9,25 +10,38 @@ import posthog from "posthog-js";
  * - de proxy (server/routes/data) stuurt geen cookies en geen bezoekers-IP door.
  * - geen eigen identificatie-cookie (de vroegere nuxt-posthog-module zette
  *   "ph-identify"; die module is daarom vervangen door deze plugin).
+ * - geen querystring, #-deel, klik-ID's (fbclid e.d.) of zoekwoorden naar PostHog
+ *   (before_send hieronder); daar kunnen persoonsgegevens in staan.
  *
- * Komt er ooit tracking die wél iets op het apparaat opslaat (bijv. de Meta-pixel),
- * dan pas na toestemming via een cookiebanner. Zie /privacy.
+ * Tracking die wél iets op het apparaat opslaat (de Meta-pixel) loopt via de
+ * cookiebanner: app/plugins/cookieconsent.client.ts. Zie /privacy.
  */
-const URL_PROPS = [
-	"$current_url",
-	"$referrer",
-	"$initial_referrer",
-	"$initial_current_url",
-	"$pathname",
-];
 
-function stripQuery(value: string): string {
-	try {
-		const u = new URL(value, window.location.origin);
-		return value.startsWith("/") ? u.pathname : `${u.origin}${u.pathname}`;
-	} catch {
-		return value.split(/[?#]/)[0] ?? "";
+// Klik-ID's van advertentieplatformen en zoekwoorden: nooit naar PostHog,
+// ook niet als $session_entry_… of $initial_… variant.
+const DROP =
+	/(^|_)(fbclid|gclid|gclsrc|dclid|gbraid|wbraid|gad_source|msclkid|twclid|li_fat_id|mc_cid|igshid|ttclid|rdt_cid|epik|qclid|sccid|irclid|_kx|ph_keyword)$/;
+
+/** URL zonder querystring en #-deel; andere waarden (bijv. "$direct") ongewijzigd. */
+function stripUrl(value: string): string {
+	if (!/^(https?:\/\/|\/)/i.test(value)) return value;
+	return value.split(/[?#]/)[0] ?? "";
+}
+
+function clean(props: Record<string, unknown> | undefined) {
+	if (!props) return;
+	for (const [key, value] of Object.entries(props)) {
+		if (DROP.test(key)) Reflect.deleteProperty(props, key);
+		else if (typeof value === "string") props[key] = stripUrl(value);
 	}
+}
+
+function scrub(event: CaptureResult | null): CaptureResult | null {
+	if (!event) return event;
+	clean(event.properties as Record<string, unknown>);
+	clean(event.$set as Record<string, unknown> | undefined);
+	clean(event.$set_once as Record<string, unknown> | undefined);
+	return event;
 }
 
 export default defineNuxtPlugin(() => {
@@ -47,14 +61,7 @@ export default defineNuxtPlugin(() => {
 		disable_surveys: true,
 		disable_external_dependency_loading: true,
 		autocapture: true,
-		// Geen querystring of #-deel naar PostHog: daar kunnen persoonsgegevens in staan.
-		sanitize_properties: (properties) => {
-			for (const key of URL_PROPS) {
-				const value = properties[key];
-				if (typeof value === "string") properties[key] = stripQuery(value);
-			}
-			return properties;
-		},
+		before_send: scrub,
 	});
 
 	const router = useRouter();
