@@ -16,7 +16,6 @@ export default defineNuxtConfig({
 		"@nuxt/ui",
 		"nuxt-seo-utils",
 		"nuxt-og-image",
-		"nuxt-posthog",
 	],
 	devtools: { enabled: true },
 	future: {
@@ -32,18 +31,21 @@ export default defineNuxtConfig({
 		url: baseUrl,
 		name: "LoanLink Adviesintake",
 	},
-	posthog: {
-		clientOptions: {
-			api_host: `${baseUrl}/data`,
-			ui_host: "https://eu.posthog.com",
+	runtimeConfig: {
+		public: {
+			// Zelfde env-variabele als voorheen (nuxt-posthog), zodat de deploy niet verandert.
+			posthogKey: process.env.POSTHOG_API_KEY ?? "",
+			posthogApiHost: `${baseUrl}/data`,
 		},
 	},
 	nitro: {
 		preset: "bun",
 	},
-	routeRules: {
-		"/data/static/**": { proxy: "https://eu-assets.i.posthog.com/static/**" },
-		"/data/**": { proxy: "https://eu.i.posthog.com/**" },
+	// /data/** → PostHog EU gaat via server/routes/data/[...path].ts,
+	// die cookies en het IP-adres van de bezoeker eruit haalt.
+	icon: {
+		// Geen iconen live ophalen bij api.iconify.design (derde partij ziet dan het IP).
+		fallbackToApi: false,
 	},
 	ui: {
 		colorMode: false,

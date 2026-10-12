@@ -85,3 +85,8 @@
 .markdown img {
 	max-width: 100%;
 }
+
+/* Ankers (bijv. /privacy#cookies) niet onder de sticky navbar laten vallen */
+section[id] {
+	scroll-margin-top: 5rem;
+}
