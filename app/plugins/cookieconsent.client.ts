@@ -13,18 +13,28 @@ export default defineNuxtPlugin(() => {
 	const isPosthogKey = (name: string) => /^(ph_|__ph|ph-identify)/.test(name);
 
 	// Wist alle PostHog-opslag, ook die van vóór de cookiebanner.
+	// Opslag kan geblokkeerd zijn (privémodus); dan gaat de rest gewoon door.
 	function clearPosthogStorage() {
-		for (const store of [localStorage, sessionStorage]) {
-			for (const key of Object.keys(store)) {
-				if (isPosthogKey(key)) store.removeItem(key);
+		for (const getStore of [() => localStorage, () => sessionStorage]) {
+			try {
+				const store = getStore();
+				for (const key of Object.keys(store)) {
+					if (isPosthogKey(key)) store.removeItem(key);
+				}
+			} catch {
+				// opslag niet beschikbaar
 			}
 		}
+		// PostHog zet cookies ook op het hoofddomein (.loanlink.nl), ook vanaf
+		// een subdomein. Wis daarom op host én hoofddomein.
+		const host = window.location.hostname;
+		const parent = host.split(".").slice(-2).join(".");
 		for (const cookie of document.cookie.split(";")) {
 			const name = cookie.split("=")[0]?.trim();
 			if (name && isPosthogKey(name)) {
-				// PostHog zet de cookie ook op het hoofddomein (.loanlink.nl).
-				document.cookie = `${name}=; Max-Age=0; path=/`;
-				document.cookie = `${name}=; Max-Age=0; path=/; domain=.${window.location.hostname}`;
+				for (const domain of ["", `; domain=.${host}`, `; domain=.${parent}`]) {
+					document.cookie = `${name}=; Max-Age=0; path=/${domain}`;
+				}
 			}
 		}
 	}
@@ -59,7 +69,7 @@ export default defineNuxtPlugin(() => {
 		}
 	}
 
-	CookieConsent.run({
+	void CookieConsent.run({
 		onConsent: syncAnalytics,
 		onChange: syncAnalytics,
 		guiOptions: {
@@ -116,5 +126,9 @@ export default defineNuxtPlugin(() => {
 				},
 			},
 		},
+	}).then(() => {
+		// Oude PostHog-data van vóór de banner meteen wissen, ook als de
+		// bezoeker nog niet gekozen heeft.
+		if (!CookieConsent.acceptedCategory("analytics")) clearPosthogStorage();
 	});
 });
