@@ -97,7 +97,9 @@
 						We verkopen geen gegevens. We schakelen leveranciers in die gegevens
 						namens ons verwerken: PostHog (bezoekstatistieken, servers in de
 						EU), Cloudflare (beveiliging en snelheid van de website; verwerkt
-						daarvoor technisch uw IP-adres) en onze hosting- en
+						daarvoor technisch uw IP-adres; met Cloudflare Web Analytics meten
+						we ook hoe snel pagina's laden en hoe vaak ze bezocht worden,
+						zonder cookies) en onze hosting- en
 						e-mailleveranciers. Met hen hebben we verwerkersafspraken. Verwerkt
 						een leverancier gegevens buiten de Europese Economische Ruimte, dan
 						zorgen we voor passende waarborgen, zoals de modelcontractbepalingen
