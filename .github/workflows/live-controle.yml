@@ -34,6 +34,9 @@ jobs:
           # Zet repo-variabele EXPECT_PIXEL op 1 zodra META_PIXEL_ID op Railway staat;
           # dan toetst de controle ook dat de pixel na "Accepteren" laadt (zonder echt naar Meta te gaan).
           EXPECT_PIXEL: ${{ vars.EXPECT_PIXEL }}
+          # Cloudflare Web Analytics (cookieloos, laadsnelheid en bezoeken) staat bewust aan
+          # (besluit Gustaaf 15-10-2026). Cloudflare voegt het script live toe; staat in de privacyverklaring.
+          EXTRA_HOSTS: static.cloudflareinsights.com
         run: |
           for i in $(seq 1 15); do
             set +e
