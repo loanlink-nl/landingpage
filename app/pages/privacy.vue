@@ -203,7 +203,7 @@
 </template>
 
 <script setup lang="ts">
-const lastUpdated = "12 oktober 2026";
+const lastUpdated = "15 oktober 2026";
 
 useSeoMeta({
 	title: "Privacyverklaring",
