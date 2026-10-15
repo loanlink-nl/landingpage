@@ -48,6 +48,15 @@ export default defineNuxtConfig({
 	nitro: {
 		preset: "bun",
 	},
+	// Pagina's: browser en Cloudflare moeten na een deploy meteen de nieuwe versie tonen
+	// (zonder dit hield Cloudflare/de browser de oude pagina tot 4 uur vast). Bestanden in
+	// /_nuxt/ hebben een hash in de naam en mogen wel lang bewaard worden.
+	routeRules: {
+		"/**": { headers: { "cache-control": "no-cache" } },
+		"/_nuxt/**": {
+			headers: { "cache-control": "public, max-age=31536000, immutable" },
+		},
+	},
 	// /data/** → PostHog EU gaat via server/routes/data/[...path].ts,
 	// die cookies en het IP-adres van de bezoeker eruit haalt.
 	icon: {
