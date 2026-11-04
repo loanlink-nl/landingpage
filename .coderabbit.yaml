@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+# Geen automatische review op update-PR's van Renovate (scheelt meldingen);
+# alle andere pull requests krijgen wel een review.
+reviews:
+  auto_review:
+    enabled: true
+    ignore_usernames:
+      - "renovate[bot]"
