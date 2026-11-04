@@ -8,7 +8,7 @@ on:
 
 jobs:
   controle:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04  # vast: ubuntu-latest werd Ubuntu 26, Playwright 1.56 ondersteunt die niet (04-11-2026)
     timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
